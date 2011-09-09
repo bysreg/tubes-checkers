@@ -3,7 +3,6 @@ object Form1: TForm1
   Top = 123
   Width = 928
   Height = 534
-  VertScrollBar.Position = 11
   Caption = 'Form1'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,7 +15,7 @@ object Form1: TForm1
   TextHeight = 13
   object Board: TImage
     Left = 12
-    Top = 1
+    Top = 12
     Width = 600
     Height = 600
     Picture.Data = {
@@ -709,157 +708,166 @@ object Form1: TForm1
       002AAE0C66D4B8C05540000000000CAB0000000000555C18CDA97180AA800000
       000019560000000000AAB8319B52E3015500000000003FFFD9}
   end
-  object wh1: TImage
-    Left = 72
-    Top = 1
+  object wh5: TImage
+    Left = 192
+    Top = 12
+    Width = 60
+    Height = 60
+  end
+  object wh8: TImage
+    Left = 312
+    Top = 12
+    Width = 60
+    Height = 60
+  end
+  object wh11: TImage
+    Left = 432
+    Top = 12
     Width = 60
     Height = 60
   end
   object wh2: TImage
-    Left = 192
-    Top = 1
-    Width = 60
-    Height = 60
-  end
-  object wh3: TImage
-    Left = 312
-    Top = 1
+    Left = 12
+    Top = 72
     Width = 60
     Height = 60
   end
   object wh4: TImage
-    Left = 432
-    Top = 1
-    Width = 60
-    Height = 60
-  end
-  object wh5: TImage
-    Left = 12
-    Top = 61
-    Width = 60
-    Height = 60
-  end
-  object wh6: TImage
     Left = 132
-    Top = 61
+    Top = 72
     Width = 60
     Height = 60
   end
   object wh7: TImage
     Left = 252
-    Top = 61
-    Width = 60
-    Height = 60
-  end
-  object wh8: TImage
-    Left = 372
-    Top = 61
-    Width = 60
-    Height = 60
-  end
-  object wh9: TImage
-    Left = 72
-    Top = 121
+    Top = 72
     Width = 60
     Height = 60
   end
   object wh10: TImage
-    Left = 192
-    Top = 121
+    Left = 372
+    Top = 72
     Width = 60
     Height = 60
   end
-  object wh11: TImage
+  object wh3: TImage
+    Left = 72
+    Top = 132
+    Width = 60
+    Height = 60
+  end
+  object wh6: TImage
+    Left = 192
+    Top = 132
+    Width = 60
+    Height = 60
+  end
+  object wh9: TImage
     Left = 312
-    Top = 121
+    Top = 132
     Width = 60
     Height = 60
   end
   object wh12: TImage
     Left = 432
-    Top = 121
+    Top = 132
     Width = 60
     Height = 60
   end
   object bl1: TImage
     Left = 12
-    Top = 421
-    Width = 60
-    Height = 60
-  end
-  object bl2: TImage
-    Left = 132
-    Top = 421
-    Width = 60
-    Height = 60
-  end
-  object bl3: TImage
-    Left = 252
-    Top = 421
+    Top = 432
     Width = 60
     Height = 60
   end
   object bl4: TImage
-    Left = 372
-    Top = 421
+    Left = 132
+    Top = 432
     Width = 60
     Height = 60
   end
-  object bl5: TImage
+  object bl7: TImage
+    Left = 252
+    Top = 432
+    Width = 60
+    Height = 60
+  end
+  object bl10: TImage
+    Left = 372
+    Top = 432
+    Width = 60
+    Height = 60
+  end
+  object bl3: TImage
     Left = 72
-    Top = 361
+    Top = 372
     Width = 60
     Height = 60
   end
   object bl6: TImage
     Left = 192
-    Top = 361
-    Width = 60
-    Height = 60
-  end
-  object bl7: TImage
-    Left = 312
-    Top = 361
-    Width = 60
-    Height = 60
-  end
-  object bl8: TImage
-    Left = 432
-    Top = 361
+    Top = 372
     Width = 60
     Height = 60
   end
   object bl9: TImage
-    Left = 12
-    Top = 301
-    Width = 60
-    Height = 60
-  end
-  object bl10: TImage
-    Left = 132
-    Top = 301
-    Width = 60
-    Height = 60
-  end
-  object bl11: TImage
-    Left = 252
-    Top = 301
+    Left = 312
+    Top = 372
     Width = 60
     Height = 60
   end
   object bl12: TImage
+    Left = 432
+    Top = 372
+    Width = 60
+    Height = 60
+  end
+  object bl2: TImage
+    Left = 12
+    Top = 312
+    Width = 60
+    Height = 60
+  end
+  object bl5: TImage
+    Left = 132
+    Top = 312
+    Width = 60
+    Height = 60
+  end
+  object bl8: TImage
+    Left = 252
+    Top = 312
+    Width = 60
+    Height = 60
+  end
+  object bl11: TImage
     Left = 372
-    Top = 301
+    Top = 312
+    Width = 60
+    Height = 60
+  end
+  object wh1: TImage
+    Left = 72
+    Top = 12
     Width = 60
     Height = 60
   end
   object Button1: TButton
-    Left = 720
-    Top = 1
+    Left = 696
+    Top = 83
     Width = 120
     Height = 50
     Caption = 'Change Mode'
     TabOrder = 0
     OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 696
+    Top = 11
+    Width = 120
+    Height = 50
+    Caption = 'Start Game'
+    TabOrder = 1
+    OnClick = Button2Click
   end
 end
