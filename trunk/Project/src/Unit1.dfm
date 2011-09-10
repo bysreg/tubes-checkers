@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 336
-  Top = 156
+  Left = 271
+  Top = 119
   Width = 928
   Height = 534
   Caption = 'Form1'
@@ -768,31 +768,31 @@ object Form1: TForm1
     Width = 60
     Height = 60
   end
-  object bl1: TImage
+  object bl9: TImage
     Left = 12
     Top = 432
     Width = 60
     Height = 60
   end
-  object bl4: TImage
+  object bl10: TImage
     Left = 132
     Top = 432
     Width = 60
     Height = 60
   end
-  object bl7: TImage
+  object bl11: TImage
     Left = 252
     Top = 432
     Width = 60
     Height = 60
   end
-  object bl10: TImage
+  object bl12: TImage
     Left = 372
     Top = 432
     Width = 60
     Height = 60
   end
-  object bl3: TImage
+  object bl5: TImage
     Left = 72
     Top = 372
     Width = 60
@@ -804,37 +804,37 @@ object Form1: TForm1
     Width = 60
     Height = 60
   end
-  object bl9: TImage
+  object bl7: TImage
     Left = 312
     Top = 372
     Width = 60
     Height = 60
   end
-  object bl12: TImage
+  object bl8: TImage
     Left = 432
     Top = 372
     Width = 60
     Height = 60
   end
-  object bl2: TImage
+  object bl1: TImage
     Left = 12
     Top = 312
     Width = 60
     Height = 60
   end
-  object bl5: TImage
+  object bl2: TImage
     Left = 132
     Top = 312
     Width = 60
     Height = 60
   end
-  object bl8: TImage
+  object bl3: TImage
     Left = 252
     Top = 312
     Width = 60
     Height = 60
   end
-  object bl11: TImage
+  object bl4: TImage
     Left = 372
     Top = 312
     Width = 60
