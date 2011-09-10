@@ -17,7 +17,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 #define TRUE 1
 #define FALSE 0
-#define boolean unsigned char
 #define EIGHT 0
 #define TEN 1
 
@@ -25,7 +24,7 @@ Checker *c;
 TImage *coinImage[24];
 int mode = EIGHT;
 int coinIndex;
-boolean isGameStarted;
+bool isGameStarted;
 
 void showCoin(int posX, int posY) {
    if (posY < 3) {
