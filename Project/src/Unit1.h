@@ -20,7 +20,6 @@ __published:	// IDE-managed Components
         TImage *wh5;
         TImage *wh8;
         TImage *wh11;
-        TImage *wh2;
         TImage *wh4;
         TImage *wh7;
         TImage *wh10;
@@ -42,6 +41,7 @@ __published:	// IDE-managed Components
         TImage *bl11;
         TButton *Button2;
         TImage *wh1;
+        TImage *wh2;
         void __fastcall Button1Click(TObject *Sender);
         void __fastcall Button2Click(TObject *Sender);
 private:	// User declarations

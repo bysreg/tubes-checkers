@@ -18,11 +18,50 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 #define EIGHT 0
 #define TEN 1
 
+Checker *c;
 int mode = EIGHT;
 
 
-void showCoin(int piece) {
-   switch (piece) {
+void showCoin(int posX, int posY) {
+   if ((posY == 0) && (posX == 1)) {
+      Form1->wh1->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 0) && (posX == 3)) {
+      Form1->wh5->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 0) && (posX == 5)) {
+      Form1->wh8->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 0) && (posX == 7)) {
+      Form1->wh11->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 1) && (posX == 0)) {
+      Form1->wh2->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 1) && (posX == 2)) {
+      Form1->wh4->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 1) && (posX == 4)) {
+      Form1->wh7->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 1) && (posX == 6)) {
+      Form1->wh10->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 2) && (posX == 1)) {
+      Form1->wh3->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 2) && (posX == 3)) {
+      Form1->wh6->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 2) && (posX == 5)) {
+      Form1->wh9->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+   else if ((posY == 2) && (posX == 7)) {
+      Form1->wh12->Picture->LoadFromFile("res/bidakputih.jpg");
+   }
+
+   /*
+   switch (i) {
       case(0): {Form1->wh1->Picture->LoadFromFile("res/bidakputih.jpg");}
       case(1): {Form1->wh2->Picture->LoadFromFile("res/bidakputih.jpg");}
       case(2): {Form1->wh3->Picture->LoadFromFile("res/bidakputih.jpg");}
@@ -49,6 +88,8 @@ void showCoin(int piece) {
       case(22): {Form1->bl11->Picture->LoadFromFile("res/bidakmerah.jpg");}
       case(23): {Form1->bl12->Picture->LoadFromFile("res/bidakmerah.jpg");}
    }
+   */
+
 }
 
 void __fastcall TForm1::Button1Click(TObject *Sender)
@@ -65,10 +106,17 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
-
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
-   for (int i = 0; i < 32; i++) showCoin(i);        
+   c = new Checker(8);
+   for (int i=0; i<8; i++) {
+      for (int j=0; j<8; j++) {
+         if ((c->getTile(i,j))->isCoinInTile()) {
+            showCoin(j,i);
+         }
+      }
+   }
 }
 //---------------------------------------------------------------------------
+
 
