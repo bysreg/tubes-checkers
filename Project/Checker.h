@@ -1,17 +1,32 @@
 #ifndef CHECKER_H
 #define CHECKER_H
+#include <vector>
+
+#ifndef TILE_H
 #include "Tile.h"
+#endif
+
+#ifndef POINT_H
+#include "Point.h"
+#endif
+
 class Checker {
+
 private:
 	int mSize;
 	Tile* mBoard[10][10];
+	int mTurn;
 	
 public:
 	Checker(int);
-	void greedyMove();
+	int getSize();
+	int getTurn();
+	bool nextTurn();
 	void initBoard(int);
 	void printBoard();
 	Tile* getTile(int,int);
+	std::vector<Point> getWalkableFromCoinInTile(int,int);
+	void greedyMove();
 };
 
 #endif
