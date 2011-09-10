@@ -71,6 +71,8 @@ Tile* Checker::getTile(int aRow,int aCol) {
 	return mBoard[aRow][aCol];
 }
 
+//mengambil petak mana aja yang bisa koin tersebut bisa jalan
+//sudah memperhitungkan di petak tersebut ada koin atau tidak
 vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 	vector<GamePoint> arrGamePoint;
 	bool eatable = false;
@@ -133,6 +135,14 @@ vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {
 	GamePoint p1;p1.row = row1;p1.col=col1;
 	GamePoint p2;p2.row = row2;p2.col=col2;
+	//jika tidak ada koin di petak tersebut
+	if(!getTile(p1.row,p1.col)->isCoinInTile()) {
+		return false;
+	}
+	//jika sekarang bukan giliran dia jalan
+	if(getTile(p1.row,p1.col)->getColor()!=getTurn()) {
+		return false;
+	}
 	vector<GamePoint> arrGamePoint = getWalkableFromCoinInTile(p1.row,p1.col);
 	for(int i=0;i<arrGamePoint.size();i++) {
 		if(p2.row==arrGamePoint[i].row && p2.col==arrGamePoint[i].col) {
@@ -149,19 +159,19 @@ bool Checker::isEnemyNearbyCoinEatable(int aRow,int aCol) {
 	}
 	Tile* aCoin = getTile(aRow,aCol);
 	//atas kiri makan
-	if((getTurn()==1 || aCoin->getStatus()==Tile::KING)&& aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() && getTile(aRow-1,aCol-1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol-2>=0 && !getTile(aRow-2,aCol-2)->isCoinInTile()) {
+	if((aCoin->getColor()==1 || aCoin->getStatus()==Tile::KING)&& aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() && getTile(aRow-1,aCol-1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol-2>=0 && !getTile(aRow-2,aCol-2)->isCoinInTile()) {
 		return true;
 	}
 	//atas kanan makan
-	if((getTurn()==1 || aCoin->getStatus()==Tile::KING)&& aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() && getTile(aRow-1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow-2,aCol+2)->isCoinInTile()) {
+	if((aCoin->getColor()==1 || aCoin->getStatus()==Tile::KING)&& aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() && getTile(aRow-1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow-2,aCol+2)->isCoinInTile()) {
 		return true;
 	}
 	//bawah kiri makan
-	if((getTurn()==0 || aCoin->getStatus()==Tile::KING)&& aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
+	if((aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING)&& aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
 		return true;
 	}
 	//bawah kanan makan
-	if((getTurn()==0 || aCoin->getStatus()==Tile::KING)&& aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
+	if((aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING)&& aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
 		return true;
 	}
 	return false;
@@ -176,16 +186,12 @@ bool Checker::moveCoin(int row1,int col1,int row2,int col2) {
 	if(!getTile(p1.row,p1.col)->isCoinInTile()) {
 		return false;
 	}
-	//jika sekarang bukan giliran dia jalan
-	if(getTile(p1.row,p1.col)->getColor()!=getTurn()) {
-		return false;
-	}
-	Tile* aCoin = getTile(p1.row,p1.col);
 	//cek apakah koin di petak itu bisa pindah ke titik p2?
 	if(!isCoinAllowedToMove(p1.row,p1.col,p2.row,p2.col)) {
 		return false;
 	}
 	//pindahin dari p1 ke p2
+	Tile* aCoin = getTile(p1.row,p1.col);
 	aCoin->removeCoin();
 	getTile(p2.row,p2.col)->setCoin(aCoin->getColor(),aCoin->getStatus());
 	//jika pindah dua baris, berarti si coin memakan suatu coin lain
@@ -215,15 +221,23 @@ int main() {
 	int row1,col1,row2,col2;
 	Checker c(10);
 	GamePoint p;
+	//FIXME : belom memperhitungkan si pemain harus makan jika ada yang bisa dimakan ketika awal giliran dia(sebelom jalan)
 	do {
 		c.printBoard();
 		cout<<"giliran pemain : "<<c.getTurn()<<endl;
+		bool allowed=false;
+		GamePoint lastCoinMoveTile;
+		while(true) {
 			cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
 			cin>>row1>>col1>>row2>>col2;
-			while(!c.moveCoin(row1,col1,row2,col2)) {
-				cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
-				cin>>row1>>col1>>row2>>col2;
+			allowed = c.isCoinAllowedToMove(row1,col1,row2,col2);
+			if(allowed) {
+				c.moveCoin(row1,col1,row2,col2);		
+				break;//ganti giliran
+			}else{
+				cout<<"illegal move!"<<endl;
 			}
+		};
 	}while(c.nextTurn());
 	return 0;
 }
