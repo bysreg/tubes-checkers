@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 260
-  Top = 123
+  Left = 336
+  Top = 156
   Width = 928
   Height = 534
   Caption = 'Form1'
@@ -726,12 +726,6 @@ object Form1: TForm1
     Width = 60
     Height = 60
   end
-  object wh2: TImage
-    Left = 12
-    Top = 72
-    Width = 60
-    Height = 60
-  end
   object wh4: TImage
     Left = 132
     Top = 72
@@ -849,6 +843,12 @@ object Form1: TForm1
   object wh1: TImage
     Left = 72
     Top = 12
+    Width = 60
+    Height = 60
+  end
+  object wh2: TImage
+    Left = 12
+    Top = 72
     Width = 60
     Height = 60
   end
