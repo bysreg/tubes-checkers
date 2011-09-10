@@ -26,6 +26,8 @@ public:
 	void printBoard();
 	Tile* getTile(int,int);
 	std::vector<Point> getWalkableFromCoinInTile(int,int);
+	bool isCoinAllowedToMove(int,int,int,int);
+	bool moveCoin(int,int,int,int);
 	void greedyMove();
 };
 

@@ -112,6 +112,42 @@ vector<Point> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 	return arrPoint;
 }
 
+bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {
+	Point p1;p1.row = row1;p1.col=col1;
+	Point p2;p2.row = row2;p2.col=col2;
+	vector<Point> arrPoint = getWalkableFromCoinInTile(p1.row,p1.col);
+	for(int i=0;i<arrPoint.size();i++) {
+		if(p2.row==arrPoint[i].row && p2.col==arrPoint[i].col) {
+			return true;
+		}
+	}
+	return false;
+}
+
+//pemain(bisa manusia atau AI) memindahkan koin dari satu titik ke titik lain
+//ada pengecekan apakah perpindahan itu legal
+bool Checker::moveCoin(int row1,int col1,int row2,int col2) {
+	Point p1;p1.row = row1;p1.col = col1;
+	Point p2;p2.row = row2;p2.col = col2;
+	//cek apakah di-petak itu ada koin
+	if(!getTile(p1.row,p1.col)->isCoinInTile()) {
+		return false;
+	}
+	//jika sekarang bukan giliran dia jalan
+	if(getTile(p1.row,p1.col)->getColor()!=getTurn()) {
+		return false;
+	}
+	Tile* aCoin = getTile(p1.row,p1.col);
+	//cek apakah koin di petak itu bisa pindah ke titik p2?
+	if(!isCoinAllowedToMove(p1.row,p1.col,p2.row,p2.col)) {
+		return false;
+	}
+	//pindahin dari p1 ke p2
+	aCoin->removeCoin();
+	getTile(p2.row,p2.col)->setCoin(aCoin->getColor(),aCoin->getStatus());
+	return true;
+}
+
 void Checker::greedyMove() {
 	
 }
@@ -119,11 +155,17 @@ void Checker::greedyMove() {
 int main() {
 	int row1,col1,row2,col2;
 	Checker c(10);
-	c.printBoard();
+	Point p;
 	do {
+		c.printBoard();
 		cout<<"giliran pemain : "<<c.getTurn()<<endl;
-		cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
-		cin>>row1>>col1>>row2>>col2;
+			cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
+			cin>>row1>>col1>>row2>>col2;
+			while(!c.moveCoin(row1,col1,row2,col2)) {
+				cout<<"illegal move!"<<endl;
+				cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
+				cin>>row1>>col1>>row2>>col2;
+			}
 	}while(c.nextTurn());
 	return 0;
 }
