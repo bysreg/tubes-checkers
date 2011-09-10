@@ -67,7 +67,8 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
          for (int j=0; j<8; j++) {
             if ((c->getTile(i,j))->isCoinInTile()) {
                showCoin(j,i);
-               c->getWalkableFromCoinInTile(i,j);
+               coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
+               //c->getWalkableFromCoinInTile(i,j);
             }
          }
       }
@@ -78,3 +79,8 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+void __fastcall TForm1::coinMouseDown(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y) {
+      TImage *img = dynamic_cast<TImage *>(Sender);
+      img->Visible = false;
+}
