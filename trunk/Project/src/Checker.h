@@ -6,8 +6,8 @@
 #include "Tile.h"
 #endif
 
-#ifndef POINT_H
-#include "Point.h"
+#ifndef GAMEPOINT_H
+#include "GamePoint.h"
 #endif
 
 class Checker {
@@ -25,7 +25,7 @@ public:
 	void initBoard(int);
 	void printBoard();
 	Tile* getTile(int,int);
-	std::vector<Point> getWalkableFromCoinInTile(int,int);
+	std::vector<GamePoint> getWalkableFromCoinInTile(int,int);
 	bool isCoinAllowedToMove(int,int,int,int);
 	bool moveCoin(int,int,int,int);
 	void greedyMove();
