@@ -67,6 +67,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
          for (int j=0; j<8; j++) {
             if ((c->getTile(i,j))->isCoinInTile()) {
                showCoin(j,i);
+               c->getWalkableFromCoinInTile(i,j);
             }
          }
       }
