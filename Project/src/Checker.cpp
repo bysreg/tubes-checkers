@@ -70,54 +70,54 @@ Tile* Checker::getTile(int aRow,int aCol) {
 	return mBoard[aRow][aCol];
 }
 
-vector<Point> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
-	vector<Point> arrPoint;
+vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
+	vector<GamePoint> arrGamePoint;
 	if(!getTile(aRow,aCol)->isCoinInTile()) {
-		return arrPoint;
+		return arrGamePoint;
 	}
 	Tile* aCoin = getTile(aRow,aCol);
-	Point p;
+	GamePoint p;
 	if((aCoin->getColor()==1 || aCoin->getStatus()==Tile::KING)) {
 		if(aRow>0 && aCol>0 && !getTile(aRow-1,aCol-1)->isCoinInTile()) {
 			p.row = aRow-1;p.col = aCol-1;
-			arrPoint.push_back(p);
+			arrGamePoint.push_back(p);
 		}else if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() && getTile(aRow-1,aCol-1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol-2>=0 && !getTile(aRow-2,aCol-2)->isCoinInTile()) {
 			p.row = aRow-2;p.col = aCol-2;
-			arrPoint.push_back(p);
+			arrGamePoint.push_back(p);
 		}
 		if(aRow>0 && aCol+1<mSize && !getTile(aRow-1,aCol+1)->isCoinInTile()) {
 			p.row =aRow-1;p.col=aCol+1;
-			arrPoint.push_back(p);
+			arrGamePoint.push_back(p);
 		}else if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() && getTile(aRow-1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow-2,aCol+2)->isCoinInTile()) {
 			p.row = aRow-2;p.col=aCol+2;
-			arrPoint.push_back(p);
+			arrGamePoint.push_back(p);
 		}
 	}
 	if(aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING) {
 		if(aRow<mSize-1 && aCol>0 && !getTile(aRow+1,aCol-1)->isCoinInTile()) {
 			p.row =aRow+1;p.col=aCol-1;
-			arrPoint.push_back(p);
+			arrGamePoint.push_back(p);
 		}else if(aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
 			p.row =aRow+2;p.col=aCol-2;
-			arrPoint.push_back(p);
+			arrGamePoint.push_back(p);
 		}
 		if(aRow<mSize-1 && aCol+1<mSize && !getTile(aRow+1,aCol+1)->isCoinInTile()) {
 			p.row =aRow+1;p.col=aCol+1;
-			arrPoint.push_back(p);
+			arrGamePoint.push_back(p);
 		}else if(aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
 			p.row =aRow+2;p.col=aCol+2;
-			arrPoint.push_back(p);
+			arrGamePoint.push_back(p);
 		}
 	}
-	return arrPoint;
+	return arrGamePoint;
 }
 
 bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {
-	Point p1;p1.row = row1;p1.col=col1;
-	Point p2;p2.row = row2;p2.col=col2;
-	vector<Point> arrPoint = getWalkableFromCoinInTile(p1.row,p1.col);
-	for(int i=0;i<arrPoint.size();i++) {
-		if(p2.row==arrPoint[i].row && p2.col==arrPoint[i].col) {
+	GamePoint p1;p1.row = row1;p1.col=col1;
+	GamePoint p2;p2.row = row2;p2.col=col2;
+	vector<GamePoint> arrGamePoint = getWalkableFromCoinInTile(p1.row,p1.col);
+	for(int i=0;i<arrGamePoint.size();i++) {
+		if(p2.row==arrGamePoint[i].row && p2.col==arrGamePoint[i].col) {
 			return true;
 		}
 	}
@@ -127,8 +127,8 @@ bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {
 //pemain(bisa manusia atau AI) memindahkan koin dari satu titik ke titik lain
 //ada pengecekan apakah perpindahan itu legal
 bool Checker::moveCoin(int row1,int col1,int row2,int col2) {
-	Point p1;p1.row = row1;p1.col = col1;
-	Point p2;p2.row = row2;p2.col = col2;
+	GamePoint p1;p1.row = row1;p1.col = col1;
+	GamePoint p2;p2.row = row2;p2.col = col2;
 	//cek apakah di-petak itu ada koin
 	if(!getTile(p1.row,p1.col)->isCoinInTile()) {
 		return false;
@@ -155,7 +155,7 @@ void Checker::greedyMove() {
 int main() {
 	int row1,col1,row2,col2;
 	Checker c(10);
-	Point p;
+	GamePoint p;
 	do {
 		c.printBoard();
 		cout<<"giliran pemain : "<<c.getTurn()<<endl;
