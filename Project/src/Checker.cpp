@@ -1,5 +1,6 @@
 #include "Checker.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -72,42 +73,59 @@ Tile* Checker::getTile(int aRow,int aCol) {
 
 vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 	vector<GamePoint> arrGamePoint;
+	bool eatable = false;
 	if(!getTile(aRow,aCol)->isCoinInTile()) {
 		return arrGamePoint;
 	}
 	Tile* aCoin = getTile(aRow,aCol);
 	GamePoint p;
 	if((aCoin->getColor()==1 || aCoin->getStatus()==Tile::KING)) {
-		if(aRow>0 && aCol>0 && !getTile(aRow-1,aCol-1)->isCoinInTile()) {
-			p.row = aRow-1;p.col = aCol-1;
-			arrGamePoint.push_back(p);
-		}else if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() && getTile(aRow-1,aCol-1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol-2>=0 && !getTile(aRow-2,aCol-2)->isCoinInTile()) {
+		//atas kiri makan
+		if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() && getTile(aRow-1,aCol-1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol-2>=0 && !getTile(aRow-2,aCol-2)->isCoinInTile()) {
 			p.row = aRow-2;p.col = aCol-2;
 			arrGamePoint.push_back(p);
+			eatable = true;
 		}
-		if(aRow>0 && aCol+1<mSize && !getTile(aRow-1,aCol+1)->isCoinInTile()) {
-			p.row =aRow-1;p.col=aCol+1;
-			arrGamePoint.push_back(p);
-		}else if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() && getTile(aRow-1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow-2,aCol+2)->isCoinInTile()) {
+		//atas kanan makan
+		if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() && getTile(aRow-1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow-2,aCol+2)->isCoinInTile()) {
 			p.row = aRow-2;p.col=aCol+2;
 			arrGamePoint.push_back(p);
+			eatable = true;
 		}
+		//atas kiri
+		if(!eatable && aRow>0 && aCol>0 && !getTile(aRow-1,aCol-1)->isCoinInTile()) {
+			p.row = aRow-1;p.col = aCol-1;
+			arrGamePoint.push_back(p);
+		}
+		//atas kanan
+		if(!eatable && aRow>0 && aCol+1<mSize && !getTile(aRow-1,aCol+1)->isCoinInTile()) {
+			p.row =aRow-1;p.col=aCol+1;
+			arrGamePoint.push_back(p);
+		} 
 	}
 	if(aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING) {
-		if(aRow<mSize-1 && aCol>0 && !getTile(aRow+1,aCol-1)->isCoinInTile()) {
-			p.row =aRow+1;p.col=aCol-1;
-			arrGamePoint.push_back(p);
-		}else if(aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
+		//bawah kanan makan
+		if(aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
 			p.row =aRow+2;p.col=aCol-2;
 			arrGamePoint.push_back(p);
+			eatable = true;
 		}
-		if(aRow<mSize-1 && aCol+1<mSize && !getTile(aRow+1,aCol+1)->isCoinInTile()) {
-			p.row =aRow+1;p.col=aCol+1;
-			arrGamePoint.push_back(p);
-		}else if(aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
+		//bawah kiri makan
+		if(aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
 			p.row =aRow+2;p.col=aCol+2;
 			arrGamePoint.push_back(p);
+			eatable = true;
 		}
+		//bawah kiri
+		if(!eatable && aRow<mSize-1 && aCol>0 && !getTile(aRow+1,aCol-1)->isCoinInTile()) {
+			p.row =aRow+1;p.col=aCol-1;
+			arrGamePoint.push_back(p);
+		} 
+		//bawah kanan
+		if(!eatable && aRow<mSize-1 && aCol+1<mSize && !getTile(aRow+1,aCol+1)->isCoinInTile()) {
+			p.row =aRow+1;p.col=aCol+1;
+			arrGamePoint.push_back(p);
+		} 
 	}
 	return arrGamePoint;
 }
@@ -120,6 +138,31 @@ bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {
 		if(p2.row==arrGamePoint[i].row && p2.col==arrGamePoint[i].col) {
 			return true;
 		}
+	}
+	return false;
+}
+
+bool Checker::isEnemyNearbyCoinEatable(int aRow,int aCol) {
+	//cek apakah di-petak itu ada koin
+	if(!getTile(aRow,aCol)->isCoinInTile()) {
+		return false;
+	}
+	Tile* aCoin = getTile(aRow,aCol);
+	//atas kiri makan
+	if((getTurn()==1 || aCoin->getStatus()==Tile::KING)&& aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() && getTile(aRow-1,aCol-1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol-2>=0 && !getTile(aRow-2,aCol-2)->isCoinInTile()) {
+		return true;
+	}
+	//atas kanan makan
+	if((getTurn()==1 || aCoin->getStatus()==Tile::KING)&& aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() && getTile(aRow-1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow-2,aCol+2)->isCoinInTile()) {
+		return true;
+	}
+	//bawah kiri makan
+	if((getTurn()==0 || aCoin->getStatus()==Tile::KING)&& aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
+		return true;
+	}
+	//bawah kanan makan
+	if((getTurn()==0 || aCoin->getStatus()==Tile::KING)&& aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
+		return true;
 	}
 	return false;
 }
@@ -145,8 +188,24 @@ bool Checker::moveCoin(int row1,int col1,int row2,int col2) {
 	//pindahin dari p1 ke p2
 	aCoin->removeCoin();
 	getTile(p2.row,p2.col)->setCoin(aCoin->getColor(),aCoin->getStatus());
+	//jika pindah dua baris, berarti si coin memakan suatu coin lain
+	if(p1.row-p2.row>1) {
+		if(p1.col-p2.col>1) {
+			getTile(p1.row-1,p1.col-1)->removeCoin();
+		}else if(p2.col-p1.col>1) {
+			getTile(p1.row-1,p1.col+1)->removeCoin();
+		}
+	}else if(p2.row-p1.row>1) {
+		if(p2.col-p1.col>1) {
+			getTile(p1.row+1,p1.col+1)->removeCoin();
+		}else if(p1.col-p2.col>1) {
+			getTile(p1.row+1,p1.col-1)->removeCoin();
+		}
+	}
 	return true;
 }
+
+
 
 void Checker::greedyMove() {
 	
@@ -162,7 +221,6 @@ int main() {
 			cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
 			cin>>row1>>col1>>row2>>col2;
 			while(!c.moveCoin(row1,col1,row2,col2)) {
-				cout<<"illegal move!"<<endl;
 				cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
 				cin>>row1>>col1>>row2>>col2;
 			}
