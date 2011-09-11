@@ -73,34 +73,33 @@ Tile* Checker::getTile(int aRow,int aCol) {
 
 //mengambil petak mana aja yang bisa koin tersebut bisa jalan
 //sudah memperhitungkan di petak tersebut ada koin atau tidak
+//sudah memperhitungkan si pemain harus makan atau tidak
 vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 	vector<GamePoint> arrGamePoint;
-	bool eatable = false;
 	if(!getTile(aRow,aCol)->isCoinInTile()) {
 		return arrGamePoint;
 	}
 	Tile* aCoin = getTile(aRow,aCol);
 	GamePoint p;
+	bool mustEat = isThereEatable();
 	if((aCoin->getColor()==1 || aCoin->getStatus()==Tile::KING)) {
 		//atas kiri makan
 		if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() && getTile(aRow-1,aCol-1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol-2>=0 && !getTile(aRow-2,aCol-2)->isCoinInTile()) {
 			p.row = aRow-2;p.col = aCol-2;
 			arrGamePoint.push_back(p);
-			eatable = true;
 		}
 		//atas kanan makan
 		if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() && getTile(aRow-1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow-2,aCol+2)->isCoinInTile()) {
 			p.row = aRow-2;p.col=aCol+2;
 			arrGamePoint.push_back(p);
-			eatable = true;
 		}
 		//atas kiri
-		if(!eatable && aRow>0 && aCol>0 && !getTile(aRow-1,aCol-1)->isCoinInTile()) {
+		if(!mustEat && aRow>0 && aCol>0 && !getTile(aRow-1,aCol-1)->isCoinInTile()) {
 			p.row = aRow-1;p.col = aCol-1;
 			arrGamePoint.push_back(p);
 		}
 		//atas kanan
-		if(!eatable && aRow>0 && aCol+1<mSize && !getTile(aRow-1,aCol+1)->isCoinInTile()) {
+		if(!mustEat && aRow>0 && aCol+1<mSize && !getTile(aRow-1,aCol+1)->isCoinInTile()) {
 			p.row =aRow-1;p.col=aCol+1;
 			arrGamePoint.push_back(p);
 		} 
@@ -109,22 +108,20 @@ vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 		//bawah kanan makan
 		if(aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
 			p.row =aRow+2;p.col=aCol-2;
-			arrGamePoint.push_back(p);
-			eatable = true;
+			arrGamePoint.push_back(p);			
 		}
 		//bawah kiri makan
 		if(aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
 			p.row =aRow+2;p.col=aCol+2;
-			arrGamePoint.push_back(p);
-			eatable = true;
+			arrGamePoint.push_back(p);			
 		}
 		//bawah kiri
-		if(!eatable && aRow<mSize-1 && aCol>0 && !getTile(aRow+1,aCol-1)->isCoinInTile()) {
+		if(!mustEat && aRow<mSize-1 && aCol>0 && !getTile(aRow+1,aCol-1)->isCoinInTile()) {
 			p.row =aRow+1;p.col=aCol-1;
 			arrGamePoint.push_back(p);
 		} 
 		//bawah kanan
-		if(!eatable && aRow<mSize-1 && aCol+1<mSize && !getTile(aRow+1,aCol+1)->isCoinInTile()) {
+		if(!mustEat && aRow<mSize-1 && aCol+1<mSize && !getTile(aRow+1,aCol+1)->isCoinInTile()) {
 			p.row =aRow+1;p.col=aCol+1;
 			arrGamePoint.push_back(p);
 		} 
@@ -158,8 +155,6 @@ bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {
 }
 
 bool Checker::isEnemyNearbyCoinEatable(int aRow,int aCol) {
-	//cek petak itu ada apa tidak
-	
 	//cek apakah di-petak itu ada koin
 	if(!getTile(aRow,aCol)->isCoinInTile()) {
 		return false;
