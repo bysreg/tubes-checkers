@@ -143,6 +143,11 @@ bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {
 	if(getTile(p1.row,p1.col)->getColor()!=getTurn()) {
 		return false;
 	}
+	//jika pemain giliran sekarang harus makan tapi dia malah gak makan
+	if(isThereEatable() && abs(row1-row2)!=2) {
+		cout<<"ada koin lawan yang bisa dimakan, anda harus memakan salah satunya"<<endl;
+		return false;
+	}
 	vector<GamePoint> arrGamePoint = getWalkableFromCoinInTile(p1.row,p1.col);
 	for(int i=0;i<arrGamePoint.size();i++) {
 		if(p2.row==arrGamePoint[i].row && p2.col==arrGamePoint[i].col) {
@@ -153,6 +158,8 @@ bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {
 }
 
 bool Checker::isEnemyNearbyCoinEatable(int aRow,int aCol) {
+	//cek petak itu ada apa tidak
+	
 	//cek apakah di-petak itu ada koin
 	if(!getTile(aRow,aCol)->isCoinInTile()) {
 		return false;
@@ -167,31 +174,23 @@ bool Checker::isEnemyNearbyCoinEatable(int aRow,int aCol) {
 		return true;
 	}
 	//bawah kiri makan
-	if((aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING)&& aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
+	if((aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING)&& aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && aRow+2<mSize && aCol-2>=0 && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
 		return true;
 	}
 	//bawah kanan makan
-	if((aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING)&& aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
+	if((aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING)&& aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow+2<mSize && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
 		return true;
 	}
 	return false;
 }
 
 //pemain(bisa manusia atau AI) memindahkan koin dari satu titik ke titik lain
-//ada pengecekan apakah perpindahan itu legal
+//ada mekanisme lompat dan TIDAK ada pengecekan sebelom jalan
 bool Checker::moveCoin(int row1,int col1,int row2,int col2) {
 	GamePoint p1;p1.row = row1;p1.col = col1;
 	GamePoint p2;p2.row = row2;p2.col = col2;
-	//cek apakah di-petak itu ada koin
-	if(!getTile(p1.row,p1.col)->isCoinInTile()) {
-		return false;
-	}
-	//cek apakah koin di petak itu bisa pindah ke titik p2?
-	if(!isCoinAllowedToMove(p1.row,p1.col,p2.row,p2.col)) {
-		return false;
-	}
-	//pindahin dari p1 ke p2
 	Tile* aCoin = getTile(p1.row,p1.col);
+	//pindahin dari p1 ke p2
 	aCoin->removeCoin();
 	getTile(p2.row,p2.col)->setCoin(aCoin->getColor(),aCoin->getStatus());
 	//jika pindah dua baris, berarti si coin memakan suatu coin lain
@@ -207,6 +206,10 @@ bool Checker::moveCoin(int row1,int col1,int row2,int col2) {
 		}else if(p1.col-p2.col>1) {
 			getTile(p1.row+1,p1.col-1)->removeCoin();
 		}
+	}
+	//jika setelah dipindahkan, koin berada di baris paling jauh board dari si pemain yang punya koin tersebut, jadikan raja
+	if((getTurn()==1 && p2.row==0) || (getTurn()==0 && p2.row==mSize-1)) {
+		getTile(p2.row,p2.col)->setStatus(Tile::KING);
 	}
 	return true;
 }
@@ -231,36 +234,22 @@ int main() {
 	int row1,col1,row2,col2;
 	Checker c(10);
 	GamePoint p;
-	//FIXME : belom memperhitungkan si pemain harus makan jika ada yang bisa dimakan ketika awal giliran dia(sebelom jalan)
-	do {
+	while(true) {
 		c.printBoard();
-		cout<<"giliran pemain : "<<c.getTurn()<<endl;
-		bool allowed=false;bool mustEat=false;
-		GamePoint lastCoinMoveTile;
-		while(true) {
-			mustEat = false;
-			if(c.isThereEatable()) {
-				mustEat=true;
+		cout<<"giliran pemain : "<<c.getTurn()<<endl;	
+		cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
+		cin>>row1>>col1>>row2>>col2;
+		if(c.isCoinAllowedToMove(row1,col1,row2,col2)) {
+			c.moveCoin(row1,col1,row2,col2);
+			if(abs(row1-row2)==2 && c.isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
+				cout<<"anda berhak jalan sekali lagi karena masih ada koin lawan yang bisa dimakan"<<endl;
+				continue;
 			}
-			cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
-			cin>>row1>>col1>>row2>>col2;
-			allowed = c.isCoinAllowedToMove(row1,col1,row2,col2);
-			if(allowed) {
-				if(mustEat && abs(row1-row2)!=2) {//jika si pemain harus memakan tapi dia malah gak makan
-					cout<<"ada koin lawan yang bisa dimakan, anda harus memakan salah satunya"<<endl;
-					continue;
-				}
-				c.moveCoin(row1,col1,row2,col2);
-				if(abs(row1-row2)==2 && c.isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
-					cout<<"anda berhak jalan sekali lagi karena masih ada koin lawan yang bisa dimakan"<<endl;
-					continue;
-				}
-				break;//ganti giliran
-			}else{
-				cout<<"illegal move!"<<endl;
-			}
-		};
-	}while(c.nextTurn());
+			c.nextTurn();//ganti giliran
+		}else{
+			cout<<"illegal move!"<<endl;
+		}
+	};
 	return 0;
 }
 

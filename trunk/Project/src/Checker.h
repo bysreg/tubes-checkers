@@ -16,6 +16,8 @@ private:
 	int mSize;
 	Tile* mBoard[10][10];
 	int mTurn;
+	bool mustEat;
+	bool allowed;
 	
 public:
 	Checker(int);
