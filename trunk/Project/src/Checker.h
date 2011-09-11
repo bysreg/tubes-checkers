@@ -27,8 +27,9 @@ public:
 	Tile* getTile(int,int);
 	std::vector<GamePoint> getWalkableFromCoinInTile(int,int);
 	bool isCoinAllowedToMove(int,int,int,int);
-	bool isEnemyNearbyCoinEatable(int,int);
+	bool isEnemyNearbyCoinEatable(int,int);	
 	bool moveCoin(int,int,int,int);
+	bool isThereEatable();
 	void greedyMove();
 };
 
