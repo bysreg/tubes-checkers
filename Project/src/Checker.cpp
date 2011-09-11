@@ -106,12 +106,12 @@ vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 	}
 	if(aCoin->getColor()==0 || aCoin->getStatus()==Tile::KING) {
 		//bawah kanan makan
-		if(aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
+		if(aRow<mSize-1 && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=aCoin->getColor() && aRow+2<mSize && aCol-2>=0 && !getTile(aRow+2,aCol-2)->isCoinInTile()) {
 			p.row =aRow+2;p.col=aCol-2;
 			arrGamePoint.push_back(p);			
 		}
 		//bawah kiri makan
-		if(aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
+		if(aRow<mSize-1 && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=aCoin->getColor() && aRow+2>=0 && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile()) {
 			p.row =aRow+2;p.col=aCol+2;
 			arrGamePoint.push_back(p);			
 		}
@@ -227,7 +227,7 @@ void Checker::greedyMove() {
 
 int main() {
 	int row1,col1,row2,col2;
-	Checker c(10);
+	Checker c(8);
 	GamePoint p;
 	while(true) {
 		c.printBoard();
