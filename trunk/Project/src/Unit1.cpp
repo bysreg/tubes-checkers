@@ -22,9 +22,10 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 Checker *c;
 TImage *coinImage[24];
-TImage *hintImage;
+TImage *hintImage[5];
 int mode = EIGHT;
 int coinIndex;
+int hintIndex;
 bool isGameStarted;
 
 void showCoin(int posX, int posY) {
@@ -34,6 +35,8 @@ void showCoin(int posX, int posY) {
       coinImage[coinIndex]->Picture->LoadFromFile("res/bidakputih.jpg");
       coinImage[coinIndex]->Top = (posY*60) + 12;
       coinImage[coinIndex]->Left = (posX*60) + 12;
+      coinImage[coinIndex]->Height = 60;
+      coinImage[coinIndex]->Width = 60;
    }
    else {
       coinImage[coinIndex] = new TImage(Form1);
@@ -41,6 +44,8 @@ void showCoin(int posX, int posY) {
       coinImage[coinIndex]->Picture->LoadFromFile("res/bidakmerah.jpg");
       coinImage[coinIndex]->Top = (posY*60) + 12;
       coinImage[coinIndex]->Left = (posX*60) + 12;
+      coinImage[coinIndex]->Height = 60;
+      coinImage[coinIndex]->Width = 60;
    }
 
    coinIndex++;
@@ -64,11 +69,31 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 {
    if (isGameStarted == FALSE) {
       c = new Checker(8);
-      for (int i=0; i<8; i++) {
-         for (int j=0; j<8; j++) {
+      for (int i=0; i<c->getSize(); i++) {
+         for (int j=0; j<c->getSize(); j++) {
             if ((c->getTile(i,j))->isCoinInTile()) {
                showCoin(j,i);
-               coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
+            }
+         }
+      }
+
+      if ((c->getTurn()) == 0) {
+         for (int i=0; i<24; i++) {
+            if (i < 12) {
+               coinImage[i]->OnMouseDown = coinMouseDown;
+            }
+            else {
+               coinImage[i]->OnMouseDown = 0;
+            }
+         }
+      }
+      else {
+         for (int i=0; i<24; i++) {
+            if (i < 12) {
+               coinImage[i]->OnMouseDown = 0;
+            }
+            else {
+               coinImage[i]->OnMouseDown = coinMouseDown;
             }
          }
       }
@@ -85,12 +110,18 @@ void __fastcall TForm1::coinMouseDown(TObject *Sender,
 
       vector<GamePoint> arrGamePoint = c->getWalkableFromCoinInTile(((coin->Top)-12)/60,((coin->Left)-12)/60);
 
-      //for (int i=0; i<(sizeof(arrGamePoint)/sizeof(int)); i++) {
-      for (int i=0; i<sizeof(arrGamePoint); i++) {
-         hintImage = new TImage(Form1);
-         hintImage->Parent = Form1;
-         hintImage->Picture->LoadFromFile("res/penunjuk.jpg");
-         hintImage->Top = (arrGamePoint[i].row*60) + 12;
-         hintImage->Left = (arrGamePoint[i].col*60) + 12;
+      for (int i=0; i<hintIndex; i++) {
+         hintImage[i]->Picture = 0;
+      }
+
+      hintIndex = 0;
+
+      for (int i=0; i<arrGamePoint.size(); i++) {
+         hintImage[hintIndex] = new TImage(Form1);
+         hintImage[hintIndex]->Parent = Form1;
+         hintImage[hintIndex]->Picture->LoadFromFile("res/penunjuk.jpg");
+         hintImage[hintIndex]->Top = (arrGamePoint[i].row*60) + 12;
+         hintImage[hintIndex]->Left = (arrGamePoint[i].col*60) + 12;
+         hintIndex++;
       }
 }
