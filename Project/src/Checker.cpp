@@ -211,7 +211,17 @@ bool Checker::moveCoin(int row1,int col1,int row2,int col2) {
 	return true;
 }
 
-
+//mengembalikan nilai true, jika pada giliran sekarang ada yang bisa dimakan 
+bool Checker::isThereEatable() {
+	for(int i=0;i<mSize;i++) {
+		for(int j=0;j<mSize;j++) {
+			if(getTile(i,j)->isCoinInTile() && getTile(i,j)->getColor()==getTurn() && isEnemyNearbyCoinEatable(i,j)) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 void Checker::greedyMove() {
 	
@@ -225,14 +235,26 @@ int main() {
 	do {
 		c.printBoard();
 		cout<<"giliran pemain : "<<c.getTurn()<<endl;
-		bool allowed=false;
+		bool allowed=false;bool mustEat=false;
 		GamePoint lastCoinMoveTile;
 		while(true) {
+			mustEat = false;
+			if(c.isThereEatable()) {
+				mustEat=true;
+			}
 			cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
 			cin>>row1>>col1>>row2>>col2;
 			allowed = c.isCoinAllowedToMove(row1,col1,row2,col2);
 			if(allowed) {
-				c.moveCoin(row1,col1,row2,col2);		
+				if(mustEat && abs(row1-row2)!=2) {//jika si pemain harus memakan tapi dia malah gak makan
+					cout<<"ada koin lawan yang bisa dimakan, anda harus memakan salah satunya"<<endl;
+					continue;
+				}
+				c.moveCoin(row1,col1,row2,col2);
+				if(abs(row1-row2)==2 && c.isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
+					cout<<"anda berhak jalan sekali lagi karena masih ada koin lawan yang bisa dimakan"<<endl;
+					continue;
+				}
 				break;//ganti giliran
 			}else{
 				cout<<"illegal move!"<<endl;
