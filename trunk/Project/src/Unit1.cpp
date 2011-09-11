@@ -73,18 +73,6 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
          }
       }
 
-      /*
-      for (int i=0; i<8; i++) {
-         for (int j=0; j<8; j++) {
-            coinImage[24] = new TImage(Form1);
-            coinImage[24]->Parent = Form1;
-            coinImage[24]->Picture->LoadFromFile("res/bidakputih.jpg");
-            coinImage[24]->Top = 10;
-            coinImage[24]->Left = 10;
-         }
-      }
-      */
-      
       isGameStarted = TRUE;
    }
 }
@@ -94,11 +82,11 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 void __fastcall TForm1::coinMouseDown(TObject *Sender,
       TMouseButton Button, TShiftState Shift, int X, int Y) {
       TImage *coin = dynamic_cast<TImage *>(Sender);
-      //coin->Visible = false;
 
       vector<GamePoint> arrGamePoint = c->getWalkableFromCoinInTile(((coin->Top)-12)/60,((coin->Left)-12)/60);
 
-      for (int i=0; i<(sizeof(arrGamePoint)/sizeof(int)); i++) {
+      //for (int i=0; i<(sizeof(arrGamePoint)/sizeof(int)); i++) {
+      for (int i=0; i<sizeof(arrGamePoint); i++) {
          hintImage = new TImage(Form1);
          hintImage->Parent = Form1;
          hintImage->Picture->LoadFromFile("res/penunjuk.jpg");
