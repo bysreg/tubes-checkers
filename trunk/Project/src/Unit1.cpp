@@ -26,10 +26,12 @@ TImage *hintImage[5];
 int mode = EIGHT;
 int coinIndex;
 int hintIndex;
+int row1;
+int col1;
 bool isGameStarted;
 
 void showCoin(int posX, int posY) {
-   if (posY < 3) {
+   if (c->getTile(posY,posX)->getColor() == 0) {
       coinImage[coinIndex] = new TImage(Form1);
       coinImage[coinIndex]->Parent = Form1;
       coinImage[coinIndex]->Picture->LoadFromFile("res/bidakputih.jpg");
@@ -73,10 +75,112 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
          for (int j=0; j<c->getSize(); j++) {
             if ((c->getTile(i,j))->isCoinInTile()) {
                showCoin(j,i);
+               coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
             }
          }
       }
 
+      /*
+      if ((c->getTurn()) == 0) {
+         for (int i=0; i<24; i++) {
+            if (i < coinIndex) {
+               coinImage[i]->OnMouseDown = coinMouseDown;
+            }
+            else {
+               coinImage[i]->OnMouseDown = 0;
+            }
+         }
+      }
+      else {
+         for (int i=0; i<24; i++) {
+            if (i < 12) {
+               coinImage[i]->OnMouseDown = 0;
+            }
+            else {
+               coinImage[i]->OnMouseDown = coinMouseDown;
+            }
+         }
+      }
+      */
+
+      isGameStarted = TRUE;
+   }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::coinMouseDown(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y) {
+      TImage *coin = dynamic_cast<TImage *>(Sender);
+
+      vector<GamePoint> arrGamePoint = c->getWalkableFromCoinInTile(((coin->Top)-12)/60,((coin->Left)-12)/60);
+
+      for (int i=0; i<hintIndex; i++) {
+         hintImage[i]->Picture = 0;
+         hintImage[i]->OnMouseDown = 0;
+      }
+
+      hintIndex = 0;
+
+      for (int i=0; i<arrGamePoint.size(); i++) {
+         hintImage[hintIndex] = new TImage(Form1);
+         hintImage[hintIndex]->Parent = Form1;
+         hintImage[hintIndex]->Picture->LoadFromFile("res/penunjuk.jpg");
+         hintImage[hintIndex]->Top = (arrGamePoint[i].row*60) + 12;
+         hintImage[hintIndex]->Left = (arrGamePoint[i].col*60) + 12;
+         hintImage[hintIndex]->Height = 60;
+         hintImage[hintIndex]->Width = 60;
+         hintImage[hintIndex]->OnMouseDown = hintMouseDown;
+         hintIndex++;
+      }
+
+      row1 = ((coin->Top)-12)/60;
+      col1 = ((coin->Left)-12)/60;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::hintMouseDown(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y) {
+      TImage *hint = dynamic_cast<TImage *>(Sender);
+
+      if(c->isCoinAllowedToMove(row1,col1,((hint->Top)-12)/60,((hint->Left)-12)/60)) {
+         c->moveCoin(row1,col1,((hint->Top)-12)/60,((hint->Left)-12)/60);
+
+         if(abs(row1-((hint->Top)-12)/60)==2 && c->isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
+
+         }
+
+         c->nextTurn();//ganti giliran
+      }else{
+
+      }
+
+      for (int i=0; i<hintIndex; i++) {
+         hintImage[i]->Picture = 0;
+         hintImage[i]->OnMouseDown = 0;
+      }
+
+      hintIndex = 0;
+
+      for (int i=0; i<coinIndex; i++) {
+         coinImage[i]->Picture = 0;
+         coinImage[i]->OnMouseDown = 0;
+      }
+
+      coinIndex = 0;
+
+      //tampilkan koin
+      for (int i=0; i<c->getSize(); i++) {
+         for (int j=0; j<c->getSize(); j++) {
+            if ((c->getTile(i,j))->isCoinInTile()) {
+               showCoin(j,i);
+            }
+         }
+      }
+
+      //giliran selanjutnya
+      /*
       if ((c->getTurn()) == 0) {
          for (int i=0; i<24; i++) {
             if (i < 12) {
@@ -97,31 +201,5 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
             }
          }
       }
-
-      isGameStarted = TRUE;
-   }
-}
-//---------------------------------------------------------------------------
-
-
-void __fastcall TForm1::coinMouseDown(TObject *Sender,
-      TMouseButton Button, TShiftState Shift, int X, int Y) {
-      TImage *coin = dynamic_cast<TImage *>(Sender);
-
-      vector<GamePoint> arrGamePoint = c->getWalkableFromCoinInTile(((coin->Top)-12)/60,((coin->Left)-12)/60);
-
-      for (int i=0; i<hintIndex; i++) {
-         hintImage[i]->Picture = 0;
-      }
-
-      hintIndex = 0;
-
-      for (int i=0; i<arrGamePoint.size(); i++) {
-         hintImage[hintIndex] = new TImage(Form1);
-         hintImage[hintIndex]->Parent = Form1;
-         hintImage[hintIndex]->Picture->LoadFromFile("res/penunjuk.jpg");
-         hintImage[hintIndex]->Top = (arrGamePoint[i].row*60) + 12;
-         hintImage[hintIndex]->Left = (arrGamePoint[i].col*60) + 12;
-         hintIndex++;
-      }
+      */
 }

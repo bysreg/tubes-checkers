@@ -22,6 +22,8 @@ __published:	// IDE-managed Components
         void __fastcall Button2Click(TObject *Sender);
         void __fastcall coinMouseDown(TObject *Sender, TMouseButton Button,
                TShiftState Shift, int X, int Y);
+        void __fastcall hintMouseDown(TObject *Sender, TMouseButton Button,
+               TShiftState Shift, int X, int Y);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);
