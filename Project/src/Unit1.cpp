@@ -17,11 +17,11 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 #define TRUE 1
 #define FALSE 0
-#define EIGHT 0
-#define TEN 1
+#define EIGHT 8
+#define TEN 10
 
 Checker *c;
-TImage *coinImage[24];
+TImage *coinImage[40];
 TImage *hintImage[5];
 int mode = EIGHT;
 int coinIndex;
@@ -63,6 +63,24 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
       Form1->Board->Picture->LoadFromFile("res/kotak8x8.jpg");
       mode = EIGHT;
    }
+
+   if (isGameStarted == TRUE) {
+      for (int i=0; i<coinIndex; i++) {
+         delete coinImage[i];
+      }
+      coinIndex = 0;
+
+      delete c;
+      c = new Checker(mode);
+      for (int i=0; i<c->getSize(); i++) {
+         for (int j=0; j<c->getSize(); j++) {
+            if ((c->getTile(i,j))->isCoinInTile()) {
+               showCoin(j,i);
+               coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
+            }
+         }
+      }
+   }
 }
 //---------------------------------------------------------------------------
 
@@ -80,30 +98,24 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
          }
       }
 
-      /*
-      if ((c->getTurn()) == 0) {
-         for (int i=0; i<24; i++) {
-            if (i < coinIndex) {
-               coinImage[i]->OnMouseDown = coinMouseDown;
-            }
-            else {
-               coinImage[i]->OnMouseDown = 0;
-            }
-         }
-      }
-      else {
-         for (int i=0; i<24; i++) {
-            if (i < 12) {
-               coinImage[i]->OnMouseDown = 0;
-            }
-            else {
-               coinImage[i]->OnMouseDown = coinMouseDown;
-            }
-         }
-      }
-      */
-
       isGameStarted = TRUE;
+   }
+   else {
+      for (int i=0; i<coinIndex; i++) {
+         delete coinImage[i];
+      }
+      coinIndex = 0;
+
+      delete c;
+      c = new Checker(mode);
+      for (int i=0; i<c->getSize(); i++) {
+         for (int j=0; j<c->getSize(); j++) {
+            if ((c->getTile(i,j))->isCoinInTile()) {
+               showCoin(j,i);
+               coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
+            }
+         }
+      }
    }
 }
 //---------------------------------------------------------------------------
@@ -116,10 +128,8 @@ void __fastcall TForm1::coinMouseDown(TObject *Sender,
       vector<GamePoint> arrGamePoint = c->getWalkableFromCoinInTile(((coin->Top)-12)/60,((coin->Left)-12)/60);
 
       for (int i=0; i<hintIndex; i++) {
-         hintImage[i]->Picture = 0;
-         hintImage[i]->OnMouseDown = 0;
+         delete hintImage[i];
       }
-
       hintIndex = 0;
 
       for (int i=0; i<arrGamePoint.size(); i++) {
@@ -150,24 +160,21 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
          if(abs(row1-((hint->Top)-12)/60)==2 && c->isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
 
          }
-
-         c->nextTurn();//ganti giliran
+         else {
+            c->nextTurn();//ganti giliran
+         }
       }else{
 
       }
 
       for (int i=0; i<hintIndex; i++) {
-         hintImage[i]->Picture = 0;
-         hintImage[i]->OnMouseDown = 0;
+         delete hintImage[i];
       }
-
       hintIndex = 0;
 
       for (int i=0; i<coinIndex; i++) {
-         coinImage[i]->Picture = 0;
-         coinImage[i]->OnMouseDown = 0;
+         delete coinImage[i];
       }
-
       coinIndex = 0;
 
       //tampilkan koin
@@ -175,31 +182,8 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
          for (int j=0; j<c->getSize(); j++) {
             if ((c->getTile(i,j))->isCoinInTile()) {
                showCoin(j,i);
+               coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
             }
          }
       }
-
-      //giliran selanjutnya
-      /*
-      if ((c->getTurn()) == 0) {
-         for (int i=0; i<24; i++) {
-            if (i < 12) {
-               coinImage[i]->OnMouseDown = coinMouseDown;
-            }
-            else {
-               coinImage[i]->OnMouseDown = 0;
-            }
-         }
-      }
-      else {
-         for (int i=0; i<24; i++) {
-            if (i < 12) {
-               coinImage[i]->OnMouseDown = 0;
-            }
-            else {
-               coinImage[i]->OnMouseDown = coinMouseDown;
-            }
-         }
-      }
-      */
 }
