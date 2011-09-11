@@ -76,7 +76,7 @@ Tile* Checker::getTile(int aRow,int aCol) {
 //sudah memperhitungkan si pemain harus makan atau tidak
 vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 	vector<GamePoint> arrGamePoint;
-	if(!getTile(aRow,aCol)->isCoinInTile()) {
+	if(!getTile(aRow,aCol)->isCoinInTile() || getTile(aRow,aCol)->getColor()!=getTurn()) {
 		return arrGamePoint;
 	}
 	Tile* aCoin = getTile(aRow,aCol);
