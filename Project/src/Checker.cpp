@@ -245,6 +245,7 @@ int main() {
 			cout<<"illegal move!"<<endl;
 		}
 	};
+
 	return 0;
 }
 
