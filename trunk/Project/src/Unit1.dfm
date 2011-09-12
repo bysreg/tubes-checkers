@@ -727,11 +727,24 @@ object Form1: TForm1
     OnClick = Button2Click
   end
   object StaticText1: TStaticText
-    Left = 624
-    Top = 376
-    Width = 83
-    Height = 17
-    Caption = 'IT'#39'S RED TURN'
+    Left = 680
+    Top = 160
+    Width = 4
+    Height = 4
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
     TabOrder = 2
+  end
+  object DialogBox: TEdit
+    Left = 768
+    Top = 472
+    Width = 121
+    Height = 21
+    TabOrder = 3
+    Visible = False
   end
 end

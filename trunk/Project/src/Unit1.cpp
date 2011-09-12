@@ -98,6 +98,8 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
             }
          }
       }
+
+      StaticText1->Caption = "IT'S RED TURN";
    }
 }
 //---------------------------------------------------------------------------
@@ -116,6 +118,7 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
          }
       }
 
+      StaticText1->Caption = "IT'S RED TURN";
       isGameStarted = TRUE;
    }
    else {
@@ -134,6 +137,8 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
             }
          }
       }
+
+      StaticText1->Caption = "IT'S RED TURN";
    }
 }
 //---------------------------------------------------------------------------
@@ -180,7 +185,12 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
          }
          else {
             if (!(c->nextTurn())) {
-               //message yang menang (getTurn()+1) % 2
+               if (c->getTurn() == 0) {
+                  ShowMessage("WHITE WINS");
+               }
+               else {
+                  ShowMessage("RED WINS");
+               }
             }
 
             if (c->getTurn() == 0) {
@@ -214,5 +224,5 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
          }
       }
 }
-
+//---------------------------------------------------------------------------
 
