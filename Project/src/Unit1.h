@@ -18,6 +18,7 @@ __published:	// IDE-managed Components
         TImage *Board;
         TButton *Button1;
         TButton *Button2;
+        TStaticText *StaticText1;
         void __fastcall Button1Click(TObject *Sender);
         void __fastcall Button2Click(TObject *Sender);
         void __fastcall coinMouseDown(TObject *Sender, TMouseButton Button,

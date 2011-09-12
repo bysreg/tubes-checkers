@@ -31,7 +31,25 @@ int col1;
 bool isGameStarted;
 
 void showCoin(int posX, int posY) {
-   if (c->getTile(posY,posX)->getColor() == 0) {
+   if ((c->getTile(posY,posX)->getColor() == 0) && (c->getTile(posY,posX)->getStatus() == Tile::KING)) {
+      coinImage[coinIndex] = new TImage(Form1);
+      coinImage[coinIndex]->Parent = Form1;
+      coinImage[coinIndex]->Picture->LoadFromFile("res/Checkers_king.jpg");
+      coinImage[coinIndex]->Top = (posY*60) + 12;
+      coinImage[coinIndex]->Left = (posX*60) + 12;
+      coinImage[coinIndex]->Height = 60;
+      coinImage[coinIndex]->Width = 60;
+   }
+   else if ((c->getTile(posY,posX)->getColor() == 1) && (c->getTile(posY,posX)->getStatus() == Tile::KING)) {
+      coinImage[coinIndex] = new TImage(Form1);
+      coinImage[coinIndex]->Parent = Form1;
+      coinImage[coinIndex]->Picture->LoadFromFile("res/Checkers_king.jpg");
+      coinImage[coinIndex]->Top = (posY*60) + 12;
+      coinImage[coinIndex]->Left = (posX*60) + 12;
+      coinImage[coinIndex]->Height = 60;
+      coinImage[coinIndex]->Width = 60;
+   }
+   else if (c->getTile(posY,posX)->getColor() == 0) {
       coinImage[coinIndex] = new TImage(Form1);
       coinImage[coinIndex]->Parent = Form1;
       coinImage[coinIndex]->Picture->LoadFromFile("res/bidakputih.jpg");
@@ -88,7 +106,7 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
    if (isGameStarted == FALSE) {
-      c = new Checker(8);
+      c = new Checker(mode);
       for (int i=0; i<c->getSize(); i++) {
          for (int j=0; j<c->getSize(); j++) {
             if ((c->getTile(i,j))->isCoinInTile()) {
@@ -161,7 +179,16 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
 
          }
          else {
-            c->nextTurn();//ganti giliran
+            if (!(c->nextTurn())) {
+               //message yang menang (getTurn()+1) % 2
+            }
+
+            if (c->getTurn() == 0) {
+               StaticText1->Caption = "IT'S WHITE TURN";
+            }
+            else {
+               StaticText1->Caption = "IT'S RED TURN";
+            }
          }
       }else{
 
@@ -187,3 +214,5 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
          }
       }
 }
+
+
