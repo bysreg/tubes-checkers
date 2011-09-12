@@ -25,7 +25,7 @@ bool Checker::nextTurn() {
 			}
 		}
 	}
-	return false;
+	return false;//pemain ini kalah
 }
 
 void Checker::initBoard(int aSize) {
@@ -127,6 +127,31 @@ vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 		} 
 	}
 	return arrGamePoint;
+}
+
+vector<Move> Checker::getAllLegalMove() {
+	vector<Move> arrMove;
+	for(int i=0;i<mSize;i++) {
+		for(int j=0;j<mSize;j++) {
+			if(getTile(i,j)->isCoinInTile() && getTile(i,j)->getColor()==getTurn()) {
+				vector<GamePoint> arrGamePoint = getWalkableFromCoinInTile(i,j);
+				for(int k=0;k<arrGamePoint.size();k++) {
+					Move m;
+					m.from.row = i;
+					m.from.col = j;
+					m.to.row = arrGamePoint[k].row;
+					m.to.col = arrGamePoint[k].col;
+					arrMove.push_back(m);
+				}
+			}
+		}
+	}
+}
+
+Move Checker::selectMove(vector<Move> arrMove, int selectTpe) {
+	for(int i=0;i<arrMove.size();i++) {
+		
+	}
 }
 
 bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {

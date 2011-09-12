@@ -10,16 +10,18 @@
 #include "GamePoint.h"
 #endif
 
+#ifndef MOVE_H
+#include "Move.h"
+#endif
+
 class Checker {
 
 private:
 	int mSize;
 	Tile* mBoard[10][10];
 	int mTurn;
-	bool mustEat;
-	bool allowed;
-	
 public:
+	static const int SELECT_BY_MOST_EAT=1;
 	Checker(int);
 	int getSize();
 	int getTurn();
@@ -28,6 +30,8 @@ public:
 	void printBoard();
 	Tile* getTile(int,int);
 	std::vector<GamePoint> getWalkableFromCoinInTile(int,int);
+	std::vector<Move> getAllLegalMove();
+	Move selectMove(std::vector<Move>, int);
 	bool isCoinAllowedToMove(int,int,int,int);
 	bool isEnemyNearbyCoinEatable(int,int);	
 	bool moveCoin(int,int,int,int);
