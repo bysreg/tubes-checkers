@@ -726,4 +726,12 @@ object Form1: TForm1
     TabOrder = 1
     OnClick = Button2Click
   end
+  object StaticText1: TStaticText
+    Left = 624
+    Top = 376
+    Width = 83
+    Height = 17
+    Caption = 'IT'#39'S RED TURN'
+    TabOrder = 2
+  end
 end
