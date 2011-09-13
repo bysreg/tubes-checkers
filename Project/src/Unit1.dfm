@@ -1,15 +1,16 @@
 object Form1: TForm1
-  Left = 271
-  Top = 119
-  Width = 928
-  Height = 534
-  Caption = 'Form1'
+  Left = 92
+  Top = 341
+  Width = 1000
+  Height = 700
+  Caption = 'Checkers'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  Menu = MainMenu
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
@@ -708,52 +709,54 @@ object Form1: TForm1
       002AAE0C66D4B8C05540000000000CAB0000000000555C18CDA97180AA800000
       000019560000000000AAB8319B52E3015500000000003FFFD9}
   end
-  object Button1: TButton
-    Left = 696
-    Top = 11
-    Width = 120
-    Height = 50
-    Caption = 'Change Mode'
-    TabOrder = 0
-    OnClick = Button1Click
-  end
-  object Button2: TButton
-    Left = 696
-    Top = 83
-    Width = 120
-    Height = 50
-    Caption = 'Player vs AI'
-    TabOrder = 1
-    OnClick = Button2Click
-  end
-  object StaticText1: TStaticText
-    Left = 680
-    Top = 400
+  object Message: TStaticText
+    Left = 672
+    Top = 276
     Width = 4
     Height = 4
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -19
+    Font.Height = -32
     Font.Name = 'MS Sans Serif'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 0
   end
   object DialogBox: TEdit
-    Left = 768
-    Top = 472
-    Width = 121
+    Left = 664
+    Top = 584
+    Width = 10
     Height = 21
-    TabOrder = 3
+    TabOrder = 1
     Visible = False
   end
-  object Button3: TButton
-    Left = 696
-    Top = 160
-    Width = 120
-    Height = 50
-    Caption = 'AI vs AI'
-    TabOrder = 4
-    OnClick = Button3Click
+  object MainMenu: TMainMenu
+    Left = 624
+    Top = 584
+    object Permainan: TMenuItem
+      Caption = 'Permainan'
+      object PlayervsAI: TMenuItem
+        Caption = 'Player(Red) vs AI'
+        OnClick = PlayervsAIClick
+      end
+      object AIvsPlayer: TMenuItem
+        Caption = 'AI vs Player(White)'
+      end
+      object AIvsAI: TMenuItem
+        Caption = 'AI vs AI'
+        OnClick = AIvsAIClick
+      end
+    end
+    object Mode: TMenuItem
+      Caption = 'Mode'
+      object EightxEight: TMenuItem
+        Caption = '8x8'
+        OnClick = EightxEightClick
+      end
+      object TenxTen: TMenuItem
+        Caption = '10x10'
+        OnClick = TenxTenClick
+      end
+    end
   end
 end
