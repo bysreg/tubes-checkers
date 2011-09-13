@@ -728,7 +728,7 @@ object Form1: TForm1
   end
   object StaticText1: TStaticText
     Left = 680
-    Top = 160
+    Top = 400
     Width = 4
     Height = 4
     Font.Charset = DEFAULT_CHARSET
@@ -746,5 +746,13 @@ object Form1: TForm1
     Height = 21
     TabOrder = 3
     Visible = False
+  end
+  object Button3: TButton
+    Left = 696
+    Top = 160
+    Width = 120
+    Height = 50
+    Caption = 'Masih Kosong'
+    TabOrder = 4
   end
 end

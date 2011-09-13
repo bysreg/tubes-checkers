@@ -129,14 +129,14 @@ vector<GamePoint> Checker::getWalkableFromCoinInTile(int aRow, int aCol) {
 	return arrGamePoint;
 }
 
-vector<Move> Checker::getAllLegalMove() {
-	vector<Move> arrMove;
+vector<GameMove> Checker::getAllLegalMove() {
+	vector<GameMove> arrMove;
 	for(int i=0;i<mSize;i++) {
 		for(int j=0;j<mSize;j++) {
 			if(getTile(i,j)->isCoinInTile() && getTile(i,j)->getColor()==getTurn()) {
 				vector<GamePoint> arrGamePoint = getWalkableFromCoinInTile(i,j);
 				for(int k=0;k<arrGamePoint.size();k++) {
-					Move m;
+					GameMove m;
 					m.from.row = i;
 					m.from.col = j;
 					m.to.row = arrGamePoint[k].row;
@@ -146,12 +146,54 @@ vector<Move> Checker::getAllLegalMove() {
 			}
 		}
 	}
+	return arrMove;
 }
 
-Move Checker::selectMove(vector<Move> arrMove, int selectTpe) {
-	for(int i=0;i<arrMove.size();i++) {
-		
+//mendapatkan jumlah koin yang bisa dimakan koin tersebut(bisa lebih dari 4 karena memperhitungkan koin di langkah2 didepan)
+int Checker::countEatable(int aRow, int aCol, int parRow, int parCol) {
+    //cek apakah di-petak itu ada koin
+	int retval = 0;
+	if((getTile(parRow,parCol)->getColor()==1 || getTile(parRow,parCol)->getStatus()==Tile::KING)) {
+		//atas kiri makan
+        if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() && getTile(aRow-1,aCol-1)->getColor()!=getTile(parRow,parCol)->getColor() && aRow-2>=0 && aCol-2>=0 && !getTile(aRow-2,aCol-2)->isCoinInTile() && aRow-2!=parRow && aCol-2!=parCol) {
+            retval++;
+			retval+=countEatable(aRow-2,aCol-2,aRow,aCol);
+        }
+        //atas kanan makan
+        if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() && getTile(aRow-1,aCol+1)->getColor()!=getTile(parRow,parCol)->getColor() && aRow-2>=0 && aCol+2<mSize && !getTile(aRow-2,aCol+2)->isCoinInTile()  && aRow-2!=parRow && aCol+2!=parCol) {
+            retval++;
+			retval+=countEatable(aRow-2,aCol+2,aRow,aCol); 
+        }
 	}
+	if((getTile(parRow,parCol)->getColor()==0 || getTile(parRow,parCol)->getStatus()==Tile::KING)) {
+        //bawah kiri makan
+        if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()!=getTile(parRow,parCol)->getColor() && aRow+2<mSize && aCol-2>=0 && !getTile(aRow+2,aCol-2)->isCoinInTile() && aRow+2!=parRow && aCol-2!=parCol) {
+            retval++;
+			retval+=countEatable(aRow+2,aCol-2,aRow,aCol); 
+        }
+        
+        //bawah kanan makan
+        if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=getTile(parRow,parCol)->getColor() && aRow+2<mSize && aCol+2<mSize && !getTile(aRow+2,aCol+2)->isCoinInTile() && aRow+2!=parRow && aCol+2!=parCol) {
+            retval++;
+			retval+=countEatable(aRow+2,aCol+2,aRow,aCol);  
+        }
+	} 
+	return retval;
+}
+
+GameMove Checker::selectMove(vector<GameMove> arrMove, int selectTpe) {
+	GameMove m = arrMove[0];
+	int maxIndex = 0;
+	
+	for(int i=1;i<arrMove.size();i++) {
+	
+		if (countEatable(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) < countEatable(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col)) {
+			maxIndex = i;
+		}
+	}
+	
+	moveCoin(arrMove[maxIndex].from.row,arrMove[maxIndex].from.col,arrMove[maxIndex].to.row,arrMove[maxIndex].to.col);
+	return m;
 }
 
 bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {

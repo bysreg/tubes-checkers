@@ -10,8 +10,8 @@
 #include "GamePoint.h"
 #endif
 
-#ifndef MOVE_H
-#include "Move.h"
+#ifndef GAMEMOVE_H
+#include "GameMove.h"
 #endif
 
 class Checker {
@@ -30,8 +30,9 @@ public:
 	void printBoard();
 	Tile* getTile(int,int);
 	std::vector<GamePoint> getWalkableFromCoinInTile(int,int);
-	std::vector<Move> getAllLegalMove();
-	Move selectMove(std::vector<Move>, int);
+	std::vector<GameMove> getAllLegalMove();
+	int countEatable(int,int,int,int);
+	GameMove selectMove(std::vector<GameMove>, int);
 	bool isCoinAllowedToMove(int,int,int,int);
 	bool isEnemyNearbyCoinEatable(int,int);	
 	bool moveCoin(int,int,int,int);
