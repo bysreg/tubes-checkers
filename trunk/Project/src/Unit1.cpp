@@ -30,7 +30,8 @@ int row1;
 int col1;
 bool isGameStarted;
 
-void showCoin(int posX, int posY) {
+void showCoin(int posX, int posY)
+{
    if ((c->getTile(posY,posX)->getColor() == 0) && (c->getTile(posY,posX)->getStatus() == Tile::KING)) {
       coinImage[coinIndex] = new TImage(Form1);
       coinImage[coinIndex]->Parent = Form1;
@@ -142,10 +143,12 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
    }
 }
 //---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 
 void __fastcall TForm1::coinMouseDown(TObject *Sender,
-      TMouseButton Button, TShiftState Shift, int X, int Y) {
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+{
       TImage *coin = dynamic_cast<TImage *>(Sender);
 
       vector<GamePoint> arrGamePoint = c->getWalkableFromCoinInTile(((coin->Top)-12)/60,((coin->Left)-12)/60);
@@ -174,7 +177,8 @@ void __fastcall TForm1::coinMouseDown(TObject *Sender,
 
 
 void __fastcall TForm1::hintMouseDown(TObject *Sender,
-      TMouseButton Button, TShiftState Shift, int X, int Y) {
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+{
       TImage *hint = dynamic_cast<TImage *>(Sender);
 
       if(c->isCoinAllowedToMove(row1,col1,((hint->Top)-12)/60,((hint->Left)-12)/60)) {
@@ -186,17 +190,20 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
          else {
             if (!(c->nextTurn())) {
                if (c->getTurn() == 0) {
-                  ShowMessage("WHITE WINS");
+                  ShowMessage("RED WINS");
                }
                else {
-                  ShowMessage("RED WINS");
+                  ShowMessage("WHITE WINS");
                }
             }
 
             if (c->getTurn() == 0) {
                StaticText1->Caption = "IT'S WHITE TURN";
+               c->selectMove(c->getAllLegalMove(),0);
+               c->nextTurn();
             }
-            else {
+
+            if (c->getTurn() == 1) {
                StaticText1->Caption = "IT'S RED TURN";
             }
          }
@@ -225,4 +232,6 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
       }
 }
 //---------------------------------------------------------------------------
+
+
 
