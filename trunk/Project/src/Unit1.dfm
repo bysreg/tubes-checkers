@@ -710,7 +710,7 @@ object Form1: TForm1
   end
   object Button1: TButton
     Left = 696
-    Top = 83
+    Top = 11
     Width = 120
     Height = 50
     Caption = 'Change Mode'
@@ -719,10 +719,10 @@ object Form1: TForm1
   end
   object Button2: TButton
     Left = 696
-    Top = 11
+    Top = 83
     Width = 120
     Height = 50
-    Caption = 'Start Game'
+    Caption = 'Player vs AI'
     TabOrder = 1
     OnClick = Button2Click
   end
@@ -752,7 +752,8 @@ object Form1: TForm1
     Top = 160
     Width = 120
     Height = 50
-    Caption = 'Masih Kosong'
+    Caption = 'AI vs AI'
     TabOrder = 4
+    OnClick = Button3Click
   end
 end
