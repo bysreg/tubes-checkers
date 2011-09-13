@@ -201,7 +201,28 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
          }
          else {
             if (c->getTurn() == 0) {
+               for (int i=0; i<hintIndex; i++) {
+                  delete hintImage[i];
+               }
+               hintIndex = 0;
+
+               for (int i=0; i<coinIndex; i++) {
+                  delete coinImage[i];
+               }
+               coinIndex = 0;
+
+               //tampilkan koin
+               for (int i=0; i<c->getSize(); i++) {
+                  for (int j=0; j<c->getSize(); j++) {
+                     if ((c->getTile(i,j))->isCoinInTile()) {
+                        showCoin(j,i);
+                        coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
+                     }
+                  }
+               }
+
                StaticText1->Caption = "IT'S WHITE TURN";
+               Sleep(1000);
                c->selectMove(c->getAllLegalMove(),0);
                c->nextTurn();
             }
@@ -215,10 +236,12 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
 
    }
 
+   /*
    for (int i=0; i<hintIndex; i++) {
       delete hintImage[i];
    }
    hintIndex = 0;
+   */
 
    for (int i=0; i<coinIndex; i++) {
       delete coinImage[i];
