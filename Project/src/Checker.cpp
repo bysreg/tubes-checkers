@@ -181,13 +181,36 @@ int Checker::countEatable(int aRow, int aCol, int parRow, int parCol) {
 	return retval;
 }
 
-GameMove Checker::selectMove(vector<GameMove> arrMove, int selectTpe) {
+int Checker::countDefense(int aRow, int aCol) {
+	int retval = 0;
+	if(getTile(aRow,aCol)->getColor()==0 || getTile(aRow,aCol)->getStatus()==Tile::KING) {
+		if(aRow>0 && aCol>0) {
+			retval++;
+		}
+		if(aRow>0 && aCol+1<mSize) {
+			retval++;
+		}
+	}
+	if(getTile(aRow,aCol)->getColor()==1 || getTile(aRow,aCol)->getStatus()==Tile::KING) {
+		if(aRow+1<mSize && aCol>0) {
+			retval++;
+		}
+		if(aRow+1<mSize && aCol+1<mSize) {
+			retval++;
+		}
+	}
+	return retval;
+}
+
+//arrMove berisi langkah-langkah legal checker
+GameMove Checker::selectMove(vector<GameMove> arrMove, int selectType) {
 	GameMove m = arrMove[0];
 	int maxIndex = 0;
-	
+		
 	for(int i=1;i<arrMove.size();i++) {
-	
-		if (countEatable(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) < countEatable(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col)) {
+		if (selectType==SELECT_BY_MOST_EAT && countEatable(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) < countEatable(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col)) {
+			maxIndex = i;
+		}else if(selectType==SELECT_BY_MOST_DEFENSE && countDefense(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col) < countDefense(arrMove[i].to.row,arrMove[maxIndex].to.col)) {
 			maxIndex = i;
 		}
 	}
