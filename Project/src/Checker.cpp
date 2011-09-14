@@ -211,6 +211,8 @@ GameMove Checker::selectMove(vector<GameMove> arrMove, int selectType) {
 			maxIndex = i;
 		}else if(selectType==SELECT_BY_MOST_DEFENSE && countDefense(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col) < countDefense(arrMove[i].to.row,arrMove[maxIndex].to.col)) {
 			maxIndex = i;
+		}else if(selectType==SELECT_BY_MOST_EAT_AND_DEFENSE && countEatable(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) + countDefense(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col) < countEatable(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col) + countDefense(arrMove[i].to.row,arrMove[maxIndex].to.col)) {
+			maxIndex = i;
 		}
 	}
 	
@@ -310,10 +312,6 @@ bool Checker::isThereEatable() {
 	return false;
 }
 
-void Checker::greedyMove() {
-	
-}
-
 int main() {
 	int row1,col1,row2,col2;
 	Checker c(8);
@@ -334,7 +332,6 @@ int main() {
 			cout<<"illegal move!"<<endl;
 		}
 	};
-
 	return 0;
 }
 

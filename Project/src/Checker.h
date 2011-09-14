@@ -23,6 +23,7 @@ private:
 public:
 	static const int SELECT_BY_MOST_EAT=1;
 	static const int SELECT_BY_MOST_DEFENSE=2;
+	static const int SELECT_BY_MOST_EAT_AND_DEFENSE=3;
 	Checker(int);
 	int getSize();
 	int getTurn();
@@ -39,7 +40,6 @@ public:
 	bool isEnemyNearbyCoinEatable(int,int);	
 	bool moveCoin(int,int,int,int);
 	bool isThereEatable();
-	void greedyMove();
 };
 
 #endif
