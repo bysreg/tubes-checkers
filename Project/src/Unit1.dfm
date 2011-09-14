@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 269
-  Top = 30
+  Left = 340
+  Top = 68
   Width = 1000
   Height = 700
   Caption = 'Checkers'
