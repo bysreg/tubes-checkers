@@ -1,9 +1,9 @@
 object Form1: TForm1
-  Left = 92
-  Top = 341
+  Left = 269
+  Top = 30
   Width = 1000
   Height = 700
-  Caption = 'Checkers'
+  Caption = 'Form1'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -709,22 +709,22 @@ object Form1: TForm1
       002AAE0C66D4B8C05540000000000CAB0000000000555C18CDA97180AA800000
       000019560000000000AAB8319B52E3015500000000003FFFD9}
   end
-  object Message: TStaticText
-    Left = 672
-    Top = 276
+  object StaticText1: TStaticText
+    Left = 660
+    Top = 33
     Width = 4
     Height = 4
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -32
+    Font.Height = -19
     Font.Name = 'MS Sans Serif'
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 0
   end
   object DialogBox: TEdit
-    Left = 664
-    Top = 584
+    Left = 624
+    Top = 12
     Width = 10
     Height = 21
     TabOrder = 1
@@ -732,15 +732,12 @@ object Form1: TForm1
   end
   object MainMenu: TMainMenu
     Left = 624
-    Top = 584
+    Top = 32
     object Permainan: TMenuItem
       Caption = 'Permainan'
       object PlayervsAI: TMenuItem
-        Caption = 'Player(Red) vs AI'
+        Caption = 'Player vs AI'
         OnClick = PlayervsAIClick
-      end
-      object AIvsPlayer: TMenuItem
-        Caption = 'AI vs Player(White)'
       end
       object AIvsAI: TMenuItem
         Caption = 'AI vs AI'
