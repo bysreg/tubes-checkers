@@ -18,24 +18,23 @@ class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
         TImage *Board;
-        TStaticText *Message;
+        TStaticText *StaticText1;
         TEdit *DialogBox;
         TMainMenu *MainMenu;
         TMenuItem *Permainan;
         TMenuItem *PlayervsAI;
-        TMenuItem *AIvsPlayer;
+        TMenuItem *AIvsAI;
         TMenuItem *Mode;
         TMenuItem *EightxEight;
         TMenuItem *TenxTen;
-        TMenuItem *AIvsAI;
         void __fastcall coinMouseDown(TObject *Sender, TMouseButton Button,
                TShiftState Shift, int X, int Y);
         void __fastcall hintMouseDown(TObject *Sender, TMouseButton Button,
                TShiftState Shift, int X, int Y);
         void __fastcall PlayervsAIClick(TObject *Sender);
+        void __fastcall AIvsAIClick(TObject *Sender);
         void __fastcall EightxEightClick(TObject *Sender);
         void __fastcall TenxTenClick(TObject *Sender);
-        void __fastcall AIvsAIClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);

@@ -90,7 +90,6 @@ void __fastcall TForm1::EightxEightClick(TObject *Sender)
       coinIndex = 0;
 
       delete c;
-      Message->Caption = "";
    }
 }
 //---------------------------------------------------------------------------
@@ -98,7 +97,7 @@ void __fastcall TForm1::EightxEightClick(TObject *Sender)
 
 void __fastcall TForm1::TenxTenClick(TObject *Sender)
 {
-   //ganti mode 10x10
+   //ganti mode 8x8
    Form1->Board->Picture->LoadFromFile("res/kotak10x10.jpg");
    mode = TENxTEN;
 
@@ -114,7 +113,6 @@ void __fastcall TForm1::TenxTenClick(TObject *Sender)
       coinIndex = 0;
 
       delete c;
-      Message->Caption = "";
    }
 }
 //---------------------------------------------------------------------------
@@ -154,8 +152,9 @@ void __fastcall TForm1::PlayervsAIClick(TObject *Sender)
       }
    }
 
-   Message->Caption = "IT'S RED TURN";
+   StaticText1->Caption = "IT'S RED TURN";
 }
+//---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
 
@@ -193,11 +192,11 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
       TMouseButton Button, TShiftState Shift, int X, int Y)
 {
    TImage *hint = dynamic_cast<TImage *>(Sender);
-   
+
    //player vs AI
    if(c->isCoinAllowedToMove(row1,col1,((hint->Top)-12)/60,((hint->Left)-12)/60)) {
       c->moveCoin(row1,col1,((hint->Top)-12)/60,((hint->Left)-12)/60);
-      
+
       if(abs(row1-((hint->Top)-12)/60)==2 && c->isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
 
       }
@@ -212,9 +211,6 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
          }
          else {
             if (c->getTurn() == 0) {
-               //Sleep(1000);
-               c->selectMove(c->getAllLegalMove(),0);
-
                for (int i=0; i<hintIndex; i++) {
                   delete hintImage[i];
                }
@@ -235,7 +231,9 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
                   }
                }
 
-               //Message->Caption = "IT'S WHITE TURN";
+               //StaticText1->Caption = "IT'S WHITE TURN";
+               //Sleep(1000);
+               c->selectMove(c->getAllLegalMove(),0);
 
                if (!(c->nextTurn())) {
                   if (c->getTurn() == 0) {
@@ -247,7 +245,7 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
                }
             }
             if (c->getTurn() == 1) {
-               //Message->Caption = "IT'S RED TURN";
+               //StaticText1->Caption = "IT'S RED TURN";
             }
          }
       }
@@ -314,7 +312,7 @@ void __fastcall TForm1::AIvsAIClick(TObject *Sender)
    }
    //
 
-   //Message->Caption = "IT'S RED TURN";
+   //StaticText1->Caption = "IT'S RED TURN";
 
    //AI vs AI
    for (int i=0; i<99999; i++) {
@@ -346,7 +344,7 @@ void __fastcall TForm1::AIvsAIClick(TObject *Sender)
       }
       else {
          if (c->getTurn() == 0) {
-            //Message->Caption = "IT'S WHITE TURN";
+            //StaticText1->Caption = "IT'S WHITE TURN";
             c->selectMove(c->getAllLegalMove(),0);
 
             if (!(c->nextTurn())) {
@@ -361,7 +359,7 @@ void __fastcall TForm1::AIvsAIClick(TObject *Sender)
             }
          }
          if (c->getTurn() == 1) {
-            //Message->Caption = "IT'S RED TURN";
+            //StaticText1->Caption = "IT'S RED TURN";
          }
       }
 
