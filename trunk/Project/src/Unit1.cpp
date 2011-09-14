@@ -314,7 +314,7 @@ void __fastcall TForm1::AITurnTimer(TObject *Sender)
 {
    AITurn->Interval = 3000;
 
-   GameMove gameMove = c->selectMove(c->getAllLegalMove(),0);
+   GameMove gameMove = c->selectMove(c->getAllLegalMove(),Checker::SELECT_BY_MOST_EAT);
 
    if(abs(gameMove.from.row-gameMove.to.row)==2 && c->isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
       
