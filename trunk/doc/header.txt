@@ -1,17 +1,46 @@
+//constructor mesin checker
 Checker(int);
+
+//mengembalikan ukuran board checker
 int getSize();
+
+//mengembalikan giliran siapa yang jalan sekarang
 int getTurn();
+
+//merubah giliran jalan
 bool nextTurn();
-void initBoard(int);
-void printBoard();
-Tile* getTile(int,int);
-std::vector<GamePoint> getWalkableFromCoinInTile(int,int);
+
+//fungsi inisialisasi board checker yaitu mengisi board dengan koin-koin pada petak yang sesuai
+//board di-inisialisasi dengan ukuran size
+void initBoard(int size);
+
+//mengembalikan objek tile yang ada di kordinat parameter
+Tile* getTile(int row,int col);
+
+//mengembalikan petak-petak yang bisa dilangkahi koin tersebut di kordinat x,y
+std::vector<GamePoint> getWalkableFromCoinInTile(int x,int y);
+
+//mengembalikan semua langkah legal pada giliran sekarang
 std::vector<GameMove> getAllLegalMove();
-int countEatable(int,int,int,int);
-int countDefense(int,int);
-GameMove selectMove(std::vector<GameMove>, int);
-bool isCoinInTile(int,int);
-bool isCoinAllowedToMove(int,int,int,int);
-bool isEnemyNearbyCoinEatable(int,int);	
-bool moveCoin(int,int,int,int);
+
+//mengembalikan nilai bobot memakan musuh pada suatu langkah
+int countEatable(int fromRow,int fromCol,int toRow,int toCol);
+
+//mengembalikan nilai bobot defensif pada suatu koin(atau langkah)
+int countDefense(int row,int col);
+
+//memutuskan langkah mana yang akan diambil berdasarkan fungsi seleksi tertentu secara greedy
+GameMove selectMove(std::vector<GameMove>, int greedyType);
+
+//mengembalikan apakah koin tersebut boleh jalan dari kordinat fromRow,fromCol ke toRow,toCol
+bool isCoinAllowedToMove(int fromRow,int fromCol,int toRow,int toCol);
+
+//mengembalikan apakah ada koin yang bisa di-makan disekitar kordinat
+bool isEnemyNearbyCoinEatable(int row,int col);
+
+//memindahkan koin dari kordinat fromRow,fromCol ke kordinat toRow,toCol	
+//mengembalikan true jika langkah legal dilakukan
+bool moveCoin(int fromRow,int fromCol,int toRow,int toCol);
+
+//mengembalikan nilai true jika pada suatu giliran terpadat suatu koin yang bisa memakan koin lawan
 bool isThereEatable();
