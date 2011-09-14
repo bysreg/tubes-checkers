@@ -22,6 +22,7 @@ private:
 	int mTurn;
 public:
 	static const int SELECT_BY_MOST_EAT=1;
+	static const int SELECT_BY_MOST_DEFENSE=2;
 	Checker(int);
 	int getSize();
 	int getTurn();
@@ -32,6 +33,7 @@ public:
 	std::vector<GamePoint> getWalkableFromCoinInTile(int,int);
 	std::vector<GameMove> getAllLegalMove();
 	int countEatable(int,int,int,int);
+	int countDefense(int,int);
 	GameMove selectMove(std::vector<GameMove>, int);
 	bool isCoinAllowedToMove(int,int,int,int);
 	bool isEnemyNearbyCoinEatable(int,int);	
