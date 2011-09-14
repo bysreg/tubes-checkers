@@ -15,8 +15,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 }
 //---------------------------------------------------------------------------
 
-#define TRUE 1
-#define FALSE 0
 #define EIGHTxEIGHT 8
 #define TENxTEN 10
 
@@ -28,7 +26,9 @@ int coinIndex;
 int hintIndex;
 int row1;
 int col1;
+int waitingTime = 2000;
 bool isGameStarted;
+bool isMoved;
 
 void showCoin(int posX, int posY)
 {
@@ -78,7 +78,7 @@ void __fastcall TForm1::EightxEightClick(TObject *Sender)
    Form1->Board->Picture->LoadFromFile("res/kotak8x8.jpg");
    mode = EIGHTxEIGHT;
 
-   if (isGameStarted == TRUE) {
+   if (isGameStarted == true) {
       for (int i=0; i<hintIndex; i++) {
          delete hintImage[i];
       }
@@ -90,6 +90,10 @@ void __fastcall TForm1::EightxEightClick(TObject *Sender)
       coinIndex = 0;
 
       delete c;
+      AITurn->OnTimer = 0;
+      AIRed->OnTimer = 0;
+      AIWhite->OnTimer = 0;
+      isGameStarted = false;
    }
 }
 //---------------------------------------------------------------------------
@@ -101,7 +105,7 @@ void __fastcall TForm1::TenxTenClick(TObject *Sender)
    Form1->Board->Picture->LoadFromFile("res/kotak10x10.jpg");
    mode = TENxTEN;
 
-   if (isGameStarted == TRUE) {
+   if (isGameStarted == true) {
       for (int i=0; i<hintIndex; i++) {
          delete hintImage[i];
       }
@@ -113,6 +117,10 @@ void __fastcall TForm1::TenxTenClick(TObject *Sender)
       coinIndex = 0;
 
       delete c;
+      AITurn->OnTimer = 0;
+      AIRed->OnTimer = 0;
+      AIWhite->OnTimer = 0;
+      isGameStarted = false;
    }
 }
 //---------------------------------------------------------------------------
@@ -121,7 +129,7 @@ void __fastcall TForm1::TenxTenClick(TObject *Sender)
 void __fastcall TForm1::PlayervsAIClick(TObject *Sender)
 {
    //mulai permainan
-   if (isGameStarted == FALSE) {
+   if (isGameStarted == false) {
       c = new Checker(mode);
       for (int i=0; i<c->getSize(); i++) {
          for (int j=0; j<c->getSize(); j++) {
@@ -132,7 +140,7 @@ void __fastcall TForm1::PlayervsAIClick(TObject *Sender)
          }
       }
       
-      isGameStarted = TRUE;
+      isGameStarted = true;
    }
    else {
       for (int i=0; i<coinIndex; i++) {
@@ -153,8 +161,10 @@ void __fastcall TForm1::PlayervsAIClick(TObject *Sender)
    }
 
    StaticText1->Caption = "IT'S RED TURN";
+   AITurn->OnTimer = AITurnTimer;
+   AIRed->OnTimer = 0;
+   AIWhite->OnTimer = 0;
 }
-//---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
 
@@ -202,6 +212,12 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
       }
       else {
          if (!(c->nextTurn())) {
+            AITurn->OnTimer = 0;
+            AIRed->OnTimer = 0;
+            AIWhite->OnTimer = 0;
+            isMoved = false;
+            isGameStarted = false;
+
             if (c->getTurn() == 0) {
                ShowMessage("RED WINS");
             }
@@ -210,43 +226,8 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
             }
          }
          else {
-            if (c->getTurn() == 0) {
-               for (int i=0; i<hintIndex; i++) {
-                  delete hintImage[i];
-               }
-               hintIndex = 0;
-
-               for (int i=0; i<coinIndex; i++) {
-                  delete coinImage[i];
-               }
-               coinIndex = 0;
-
-               //tampilkan koin
-               for (int i=0; i<c->getSize(); i++) {
-                  for (int j=0; j<c->getSize(); j++) {
-                     if ((c->getTile(i,j))->isCoinInTile()) {
-                        showCoin(j,i);
-                        coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
-                     }
-                  }
-               }
-
-               //StaticText1->Caption = "IT'S WHITE TURN";
-               //Sleep(1000);
-               c->selectMove(c->getAllLegalMove(),0);
-
-               if (!(c->nextTurn())) {
-                  if (c->getTurn() == 0) {
-                     ShowMessage("RED WINS");
-                  }
-                  else {
-                     ShowMessage("WHITE WINS");
-                  }
-               }
-            }
-            if (c->getTurn() == 1) {
-               //StaticText1->Caption = "IT'S RED TURN";
-            }
+            StaticText1->Caption = "IT'S WHITE TURN";
+            isMoved = true;
          }
       }
    }
@@ -254,13 +235,13 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
 
    }
 
-   /*
+   //hapus hint
    for (int i=0; i<hintIndex; i++) {
       delete hintImage[i];
    }
    hintIndex = 0;
-   */
 
+   //hapus koin
    for (int i=0; i<coinIndex; i++) {
       delete coinImage[i];
    }
@@ -278,11 +259,55 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TForm1::AITurnTimer(TObject *Sender)
+{
+   AITurn->Interval = 3000;
+
+   if (isMoved == true) {
+      c->selectMove(c->getAllLegalMove(),0);
+
+      if (!(c->nextTurn())) {
+         AITurn->OnTimer = 0;
+         AIRed->OnTimer = 0;
+         AIWhite->OnTimer = 0;
+         isMoved = false;
+         isGameStarted = false;
+
+         if (c->getTurn() == 0) {
+            ShowMessage("RED WINS");
+         }
+         else {
+            ShowMessage("WHITE WINS");
+         }
+      }
+
+      //hapus koin
+      for (int i=0; i<coinIndex; i++) {
+         delete coinImage[i];
+      }
+      coinIndex = 0;
+
+      //tampilkan koin
+      for (int i=0; i<c->getSize(); i++) {
+         for (int j=0; j<c->getSize(); j++) {
+            if ((c->getTile(i,j))->isCoinInTile()) {
+               showCoin(j,i);
+               coinImage[coinIndex-1]->OnMouseDown = coinMouseDown;
+            }
+         }
+      }
+
+      StaticText1->Caption = "IT'S RED TURN";
+      isMoved = false;
+   }
+}
+//---------------------------------------------------------------------------
+
 
 void __fastcall TForm1::AIvsAIClick(TObject *Sender)
 {
    //mulai permainan
-   if (isGameStarted == FALSE) {
+   if (isGameStarted == false) {
       c = new Checker(mode);
       for (int i=0; i<c->getSize(); i++) {
          for (int j=0; j<c->getSize(); j++) {
@@ -292,7 +317,7 @@ void __fastcall TForm1::AIvsAIClick(TObject *Sender)
          }
       }
 
-      isGameStarted = TRUE;
+      isGameStarted = true;
    }
    else {
       for (int i=0; i<coinIndex; i++) {
@@ -310,59 +335,39 @@ void __fastcall TForm1::AIvsAIClick(TObject *Sender)
          }
       }
    }
-   //
 
-   //StaticText1->Caption = "IT'S RED TURN";
+   StaticText1->Caption = "IT'S RED TURN";
+   AITurn->OnTimer = 0;
+   AIRed->OnTimer = AIRedTimer;
+   AIWhite->OnTimer = AIWhiteTimer;
+}
+//---------------------------------------------------------------------------
 
-   //AI vs AI
-   for (int i=0; i<99999; i++) {
+
+//AI vs AI
+void __fastcall TForm1::AIRedTimer(TObject *Sender)
+{
+   AIRed->Interval = waitingTime;
+
+   if ((isMoved == false) && (isGameStarted == true)) {
       c->selectMove(c->getAllLegalMove(),0);
 
-      for (int i=0; i<coinIndex; i++) {
-         delete coinImage[i];
-      }
-      coinIndex = 0;
-
-      //tampilkan koin
-      for (int i=0; i<c->getSize(); i++) {
-         for (int j=0; j<c->getSize(); j++) {
-            if ((c->getTile(i,j))->isCoinInTile()) {
-               showCoin(j,i);
-            }
-         }
-      }
-      
       if (!(c->nextTurn())) {
+         AITurn->OnTimer = 0;
+         AIRed->OnTimer = 0;
+         AIWhite->OnTimer = 0;
+         isMoved = false;
+         isGameStarted = false;
+
          if (c->getTurn() == 0) {
             ShowMessage("RED WINS");
-            break;
          }
          else {
             ShowMessage("WHITE WINS");
-            break;
-         }
-      }
-      else {
-         if (c->getTurn() == 0) {
-            //StaticText1->Caption = "IT'S WHITE TURN";
-            c->selectMove(c->getAllLegalMove(),0);
-
-            if (!(c->nextTurn())) {
-               if (c->getTurn() == 0) {
-                  ShowMessage("RED WINS");
-                  break;
-               }
-               else {
-                  ShowMessage("WHITE WINS");
-                  break;
-               }
-            }
-         }
-         if (c->getTurn() == 1) {
-            //StaticText1->Caption = "IT'S RED TURN";
          }
       }
 
+      //hapus koin
       for (int i=0; i<coinIndex; i++) {
          delete coinImage[i];
       }
@@ -376,8 +381,60 @@ void __fastcall TForm1::AIvsAIClick(TObject *Sender)
             }
          }
       }
+
+      isMoved = true;
+      StaticText1->Caption = "IT'S WHITE TURN";
    }
 }
 //---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::AIWhiteTimer(TObject *Sender)
+{
+   AIWhite->Interval = waitingTime * 2;
+
+   if (isMoved == true) {
+      c->selectMove(c->getAllLegalMove(),0);
+
+      if (!(c->nextTurn())) {
+         AITurn->OnTimer = 0;
+         AIRed->OnTimer = 0;
+         AIWhite->OnTimer = 0;
+         isMoved = false;
+         isGameStarted = false;
+
+         if (c->getTurn() == 0) {
+            ShowMessage("RED WINS");
+         }
+         else {
+            ShowMessage("WHITE WINS");
+         }
+      }
+
+      //hapus koin
+      for (int i=0; i<coinIndex; i++) {
+         delete coinImage[i];
+      }
+      coinIndex = 0;
+
+      //tampilkan koin
+      for (int i=0; i<c->getSize(); i++) {
+         for (int j=0; j<c->getSize(); j++) {
+            if ((c->getTile(i,j))->isCoinInTile()) {
+               showCoin(j,i);
+            }
+         }
+      }
+
+      isMoved = false;
+      StaticText1->Caption = "IT'S RED TURN";
+   }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::LambatClick(TObject *Sender) {waitingTime = 5000;}
+void __fastcall TForm1::SedangClick(TObject *Sender) {waitingTime = 3000;}
+void __fastcall TForm1::CepatClick(TObject *Sender) {waitingTime = 1000;}
 
 

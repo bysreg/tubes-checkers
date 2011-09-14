@@ -27,6 +27,13 @@ __published:	// IDE-managed Components
         TMenuItem *Mode;
         TMenuItem *EightxEight;
         TMenuItem *TenxTen;
+        TTimer *AIRed;
+        TTimer *AIWhite;
+        TMenuItem *Kecepatan;
+        TMenuItem *Lambat;
+        TMenuItem *Sedang;
+        TMenuItem *Cepat;
+        TTimer *AITurn;
         void __fastcall coinMouseDown(TObject *Sender, TMouseButton Button,
                TShiftState Shift, int X, int Y);
         void __fastcall hintMouseDown(TObject *Sender, TMouseButton Button,
@@ -35,6 +42,12 @@ __published:	// IDE-managed Components
         void __fastcall AIvsAIClick(TObject *Sender);
         void __fastcall EightxEightClick(TObject *Sender);
         void __fastcall TenxTenClick(TObject *Sender);
+        void __fastcall AITurnTimer(TObject *Sender);
+        void __fastcall AIRedTimer(TObject *Sender);
+        void __fastcall AIWhiteTimer(TObject *Sender);
+        void __fastcall LambatClick(TObject *Sender);
+        void __fastcall SedangClick(TObject *Sender);
+        void __fastcall CepatClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);
