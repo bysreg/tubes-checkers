@@ -710,8 +710,8 @@ object Form1: TForm1
       000019560000000000AAB8319B52E3015500000000003FFFD9}
   end
   object StaticText1: TStaticText
-    Left = 660
-    Top = 33
+    Left = 624
+    Top = 12
     Width = 4
     Height = 4
     Font.Charset = DEFAULT_CHARSET
@@ -723,8 +723,8 @@ object Form1: TForm1
     TabOrder = 0
   end
   object DialogBox: TEdit
-    Left = 624
-    Top = 12
+    Left = 664
+    Top = 588
     Width = 10
     Height = 21
     TabOrder = 1
@@ -732,7 +732,7 @@ object Form1: TForm1
   end
   object MainMenu: TMainMenu
     Left = 624
-    Top = 32
+    Top = 584
     object Permainan: TMenuItem
       Caption = 'Permainan'
       object PlayervsAI: TMenuItem
@@ -755,5 +755,32 @@ object Form1: TForm1
         OnClick = TenxTenClick
       end
     end
+    object Kecepatan: TMenuItem
+      Caption = 'Kecepatan'
+      object Lambat: TMenuItem
+        Caption = 'Lambat'
+        OnClick = LambatClick
+      end
+      object Sedang: TMenuItem
+        Caption = 'Sedang'
+        OnClick = SedangClick
+      end
+      object Cepat: TMenuItem
+        Caption = 'Cepat'
+        OnClick = CepatClick
+      end
+    end
+  end
+  object AITurn: TTimer
+    Left = 688
+    Top = 584
+  end
+  object AIRed: TTimer
+    Left = 728
+    Top = 584
+  end
+  object AIWhite: TTimer
+    Left = 768
+    Top = 584
   end
 end
