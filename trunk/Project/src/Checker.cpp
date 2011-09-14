@@ -204,7 +204,6 @@ int Checker::countDefense(int aRow, int aCol) {
 
 //arrMove berisi langkah-langkah legal checker
 GameMove Checker::selectMove(vector<GameMove> arrMove, int selectType) {
-	GameMove m = arrMove[0];
 	int maxIndex = 0;
 		
 	for(int i=1;i<arrMove.size();i++) {
@@ -216,7 +215,7 @@ GameMove Checker::selectMove(vector<GameMove> arrMove, int selectType) {
 	}
 	
 	moveCoin(arrMove[maxIndex].from.row,arrMove[maxIndex].from.col,arrMove[maxIndex].to.row,arrMove[maxIndex].to.col);
-	return m;
+	return arrMove[maxIndex];
 }
 
 bool Checker::isCoinAllowedToMove(int row1,int col1,int row2,int col2) {

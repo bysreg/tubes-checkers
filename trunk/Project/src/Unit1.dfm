@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 30
   Width = 1000
   Height = 700
-  Caption = 'Form1'
+  Caption = 'Checkers'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -736,8 +736,12 @@ object Form1: TForm1
     object Permainan: TMenuItem
       Caption = 'Permainan'
       object PlayervsAI: TMenuItem
-        Caption = 'Player vs AI'
+        Caption = 'Player(Red) vs AI'
         OnClick = PlayervsAIClick
+      end
+      object AIvsPlayer: TMenuItem
+        Caption = 'AI vs Player(White)'
+        OnClick = AIvsPlayerClick
       end
       object AIvsAI: TMenuItem
         Caption = 'AI vs AI'
