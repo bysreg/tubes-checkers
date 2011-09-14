@@ -23,7 +23,7 @@ __published:	// IDE-managed Components
         TMainMenu *MainMenu;
         TMenuItem *Permainan;
         TMenuItem *PlayervsAI;
-        TMenuItem *AIvsAI;
+        TMenuItem *AIvsPlayer;
         TMenuItem *Mode;
         TMenuItem *EightxEight;
         TMenuItem *TenxTen;
@@ -34,11 +34,13 @@ __published:	// IDE-managed Components
         TMenuItem *Sedang;
         TMenuItem *Cepat;
         TTimer *AITurn;
+        TMenuItem *AIvsAI;
         void __fastcall coinMouseDown(TObject *Sender, TMouseButton Button,
                TShiftState Shift, int X, int Y);
         void __fastcall hintMouseDown(TObject *Sender, TMouseButton Button,
                TShiftState Shift, int X, int Y);
         void __fastcall PlayervsAIClick(TObject *Sender);
+        void __fastcall AIvsPlayerClick(TObject *Sender);
         void __fastcall AIvsAIClick(TObject *Sender);
         void __fastcall EightxEightClick(TObject *Sender);
         void __fastcall TenxTenClick(TObject *Sender);
