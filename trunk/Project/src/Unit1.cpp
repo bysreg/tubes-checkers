@@ -26,6 +26,8 @@ int coinIndex;
 int hintIndex;
 int row1;
 int col1;
+int whiteStrategy = Checker::SELECT_BY_MOST_EAT;
+int redStrategy = Checker::SELECT_BY_MOST_EAT;
 int waitingTime = 2000;
 bool isGameStarted;
 bool isMoved;
@@ -314,7 +316,14 @@ void __fastcall TForm1::AITurnTimer(TObject *Sender)
 {
    AITurn->Interval = 3000;
 
-   GameMove gameMove = c->selectMove(c->getAllLegalMove(),Checker::SELECT_BY_MOST_EAT);
+   GameMove gameMove;
+
+   if (c->getTurn() == 0) {
+      gameMove = c->selectMove(c->getAllLegalMove(),whiteStrategy);
+   }
+   else {
+      gameMove = c->selectMove(c->getAllLegalMove(),redStrategy);
+   }
 
    if(abs(gameMove.from.row-gameMove.to.row)==2 && c->isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
       
@@ -407,7 +416,7 @@ void __fastcall TForm1::AIRedTimer(TObject *Sender)
 {
    AIRed->Interval = waitingTime;
 
-   GameMove gameMove = c->selectMove(c->getAllLegalMove(),0);
+   GameMove gameMove = c->selectMove(c->getAllLegalMove(),redStrategy);
 
    if(abs(gameMove.from.row-gameMove.to.row)==2 && c->isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
 
@@ -454,7 +463,7 @@ void __fastcall TForm1::AIWhiteTimer(TObject *Sender)
 {
    AIWhite->Interval = waitingTime;
 
-   GameMove gameMove = c->selectMove(c->getAllLegalMove(),0);
+   GameMove gameMove = c->selectMove(c->getAllLegalMove(),whiteStrategy);
 
    if(abs(gameMove.from.row-gameMove.to.row)==2 && c->isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
 
@@ -501,4 +510,32 @@ void __fastcall TForm1::LambatClick(TObject *Sender) {waitingTime = 5000;}
 void __fastcall TForm1::SedangClick(TObject *Sender) {waitingTime = 3000;}
 void __fastcall TForm1::CepatClick(TObject *Sender) {waitingTime = 500;}
 
+
+void __fastcall TForm1::RedAIOffensiveClick(TObject *Sender)
+{
+   redStrategy = Checker::SELECT_BY_MOST_EAT;
+   StaticText3->Caption = "Red AI : OFFENSIVE";
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::RedAIDefensiveClick(TObject *Sender)
+{
+   redStrategy = Checker::SELECT_BY_MOST_DEFENSE;
+   StaticText3->Caption = "Red AI : DEFENSIVE";
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::WhiteAIOffensiveClick(TObject *Sender)
+{
+   whiteStrategy = Checker::SELECT_BY_MOST_EAT;
+   StaticText4->Caption = "White AI : OFFENSIVE";
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::WhiteAIDefensiveClick(TObject *Sender)
+{
+   whiteStrategy = Checker::SELECT_BY_MOST_DEFENSE;
+   StaticText4->Caption = "White AI : DEFENSIVE";
+}
+//---------------------------------------------------------------------------
 
