@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 340
-  Top = 68
+  Left = 334
+  Top = 60
   Width = 1000
   Height = 700
   Caption = 'Checkers'
@@ -711,12 +711,12 @@ object Form1: TForm1
   end
   object StaticText1: TStaticText
     Left = 624
-    Top = 12
-    Width = 4
-    Height = 4
+    Top = 60
+    Width = 120
+    Height = 50
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -19
+    Font.Height = -24
     Font.Name = 'MS Sans Serif'
     Font.Style = [fsBold]
     ParentFont = False
@@ -729,6 +729,46 @@ object Form1: TForm1
     Height = 21
     TabOrder = 1
     Visible = False
+  end
+  object StaticText2: TStaticText
+    Left = 624
+    Top = 12
+    Width = 159
+    Height = 41
+    Caption = 'Message :'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -32
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 2
+  end
+  object StaticText3: TStaticText
+    Left = 624
+    Top = 120
+    Width = 120
+    Height = 50
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -24
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+  end
+  object StaticText4: TStaticText
+    Left = 624
+    Top = 184
+    Width = 120
+    Height = 50
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -24
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
   end
   object MainMenu: TMainMenu
     Left = 624
@@ -772,6 +812,25 @@ object Form1: TForm1
       object Cepat: TMenuItem
         Caption = 'Cepat'
         OnClick = CepatClick
+      end
+    end
+    object AIStrategy: TMenuItem
+      Caption = 'Strategi AI'
+      object RedAIOffensive: TMenuItem
+        Caption = 'Red AI(Offensive)'
+        OnClick = RedAIOffensiveClick
+      end
+      object RedAIDefensive: TMenuItem
+        Caption = 'Red AI(Defensive)'
+        OnClick = RedAIDefensiveClick
+      end
+      object WhiteAIOffensive: TMenuItem
+        Caption = 'White AI(Offensive)'
+        OnClick = WhiteAIOffensiveClick
+      end
+      object WhiteAIDefensive: TMenuItem
+        Caption = 'White AI(Defensive)'
+        OnClick = WhiteAIDefensiveClick
       end
     end
   end
