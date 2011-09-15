@@ -184,30 +184,34 @@ int Checker::countEatable(int aRow, int aCol, int parRow, int parCol) {
 int Checker::countDefense(int aRow, int aCol, int parRow, int parCol) {
 	int retval = 0;
 	if(getTile(parRow,parCol)->getColor()==0) {
-		if(aRow>0 && aCol>0 && !(aRow-1==parRow && aCol-1==parCol) && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()==0) {
-			retval++;
-			if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=getTile(parRow,parCol)->getColor()) {
+		if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=getTile(parRow,parCol)->getColor()) {
+			if(aRow>0 && aCol>0 && !(aRow-1==parRow && aCol-1==parCol) && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()==0) {
 				retval++;
+			}else{
+				retval--;
 			}
-		}
-		if(aRow>0 && aCol+1<mSize && !(aRow-1==parRow && aCol+1==parCol) && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()==0) {
-			retval++;
-			if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() &&  getTile(aRow+1,aCol-1)->getColor()!=getTile(parRow,parCol)->getColor()) {
+		}		
+		if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() &&  getTile(aRow+1,aCol-1)->getColor()!=getTile(parRow,parCol)->getColor()) {
+			if(aRow>0 && aCol+1<mSize && !(aRow-1==parRow && aCol+1==parCol) && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()==0) {
 				retval++;
+			}else{
+				retval--;
 			}
 		}
 	}
 	if(getTile(parRow,parCol)->getColor()==1) {
-		if(aRow+1<mSize && aCol>0 && !(aRow+1==parRow && aCol-1==parCol) &&  getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()==1) {
-			retval++;
-			if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()!=getTile(parRow,parCol)->getColor()) {
+		if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()!=getTile(parRow,parCol)->getColor()) {
+			if(aRow+1<mSize && aCol>0 && !(aRow+1==parRow && aCol-1==parCol) &&  getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()==1) {
 				retval++;
+			}else{
+				retval--;
 			}
 		}
-		if(aRow+1<mSize && aCol+1<mSize && !(aRow+1==parRow && aCol+1==parCol) &&  getTile(aRow+1,aCol+1)->isCoinInTile() &&  getTile(aRow+1,aCol+1)->getColor()==1) {
-			retval++;
-			if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()!=getTile(parRow,parCol)->getColor()) {
-				retval++;
+		if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()!=getTile(parRow,parCol)->getColor()) {
+			if(aRow+1<mSize && aCol+1<mSize && !(aRow+1==parRow && aCol+1==parCol) &&  getTile(aRow+1,aCol+1)->isCoinInTile() &&  getTile(aRow+1,aCol+1)->getColor()==1) {
+				retval++;		
+			}else{
+				retval--;
 			}
 		}
 	}
@@ -332,23 +336,38 @@ int main() {
 	int aCol = 2;
 	int parRow = 2;
 	int parCol = 1;
-	cout<<"aaaaa"<<(c.countDefense(3,2,2,1))<<endl;
+	// cek human
+	// while(true) {
+		// c.printBoard();
+		// cout<<"giliran pemain : "<<c.getTurn()<<endl;	
+		// cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
+		// cin>>row1>>col1>>row2>>col2;
+		// if(c.isCoinAllowedToMove(row1,col1,row2,col2)) {
+			// c.moveCoin(row1,col1,row2,col2);
+			// if(abs(row1-row2)==2 && c.isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
+				// cout<<"anda berhak jalan sekali lagi karena masih ada koin lawan yang bisa dimakan"<<endl;
+				// continue;
+			// }
+			// c.nextTurn();//ganti giliran
+		// }else{
+			// cout<<"illegal move!"<<endl;
+		// }
+	// };
+	
+	//cek AI
+	GameMove gameMove;
 	while(true) {
 		c.printBoard();
 		cout<<"giliran pemain : "<<c.getTurn()<<endl;	
 		cout<<"masukkan koin di petak yang mana dan ke petak yang mana : ";
-		cin>>row1>>col1>>row2>>col2;
-		if(c.isCoinAllowedToMove(row1,col1,row2,col2)) {
-			c.moveCoin(row1,col1,row2,col2);
-			if(abs(row1-row2)==2 && c.isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
-				cout<<"anda berhak jalan sekali lagi karena masih ada koin lawan yang bisa dimakan"<<endl;
-				continue;
-			}
-			c.nextTurn();//ganti giliran
-		}else{
-			cout<<"illegal move!"<<endl;
+		cin>>row1;
+		gameMove = c.selectMove(c.getAllLegalMove(),2);
+		if(abs(gameMove.from.row-gameMove.to.row)==2 && c.isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
+			cout<<"anda berhak jalan sekali lagi karena masih ada koin lawan yang bisa dimakan"<<endl;
+			continue;
 		}
-	};
+		c.nextTurn();//ganti giliran
+	};	
 	return 0;
 }
 
