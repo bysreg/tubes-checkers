@@ -34,7 +34,7 @@ public:
 	std::vector<GamePoint> getWalkableFromCoinInTile(int,int);
 	std::vector<GameMove> getAllLegalMove();
 	int countEatable(int,int,int,int);
-	int countDefense(int,int);
+	int countDefense(int,int, int, int);
 	GameMove selectMove(std::vector<GameMove>, int);
 	bool isCoinAllowedToMove(int,int,int,int);
 	bool isEnemyNearbyCoinEatable(int,int);	
