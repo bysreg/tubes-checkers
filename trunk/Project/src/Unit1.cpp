@@ -315,7 +315,7 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
 void __fastcall TForm1::AITurnTimer(TObject *Sender)
 {
    AITurn->Interval = waitingTime;
-   //ShowMessage(c->countDefense(3,2,2,1));
+
    GameMove gameMove;
 
    if (c->getTurn() == 0) {
@@ -407,7 +407,7 @@ void __fastcall TForm1::AIvsAIClick(TObject *Sender)
    StaticText1->Caption = "GILIRAN MERAH";
    AITurn->OnTimer = 0;
    AIRed->OnTimer = AIRedTimer;
-   AIWhite->OnTimer = AIWhiteTimer;
+   AIWhite->OnTimer = 0;
 }
 //---------------------------------------------------------------------------
 
@@ -426,7 +426,6 @@ void __fastcall TForm1::AIRedTimer(TObject *Sender)
          AITurn->OnTimer = 0;
          AIRed->OnTimer = 0;
          AIWhite->OnTimer = 0;
-
          if (c->getTurn() == 0) {
             ShowMessage("MERAH MENANG");
          }
@@ -466,7 +465,7 @@ void __fastcall TForm1::AIWhiteTimer(TObject *Sender)
    GameMove gameMove = c->selectMove(c->getAllLegalMove(),whiteStrategy);
 
    if(abs(gameMove.from.row-gameMove.to.row)==2 && c->isThereEatable()) {//jika si pemain barusan memakan, suru jalan lagi jika masih ada yang bisa dimakan
-
+  
    }
    else {
       if (!(c->nextTurn())) {
@@ -518,6 +517,12 @@ void __fastcall TForm1::RedAIDefensiveClick(TObject *Sender)
    StaticText3->Caption = "AI Merah : Bertahan";
 }
 
+void __fastcall TForm1::RedAIOffensiveDefensiveClick(TObject *Sender)
+{
+   redStrategy = Checker::SELECT_BY_MOST_EAT_AND_DEFENSE;
+   StaticText3->Caption = "AI Merah : Agresif-Bertahan";
+}
+
 void __fastcall TForm1::WhiteAIOffensiveClick(TObject *Sender)
 {
    whiteStrategy = Checker::SELECT_BY_MOST_EAT;
@@ -528,6 +533,12 @@ void __fastcall TForm1::WhiteAIDefensiveClick(TObject *Sender)
 {
    whiteStrategy = Checker::SELECT_BY_MOST_DEFENSE;
    StaticText4->Caption = "AI Putih : Bertahan";
+}
+
+void __fastcall TForm1::WhiteAIOffensiveDefensiveClick(TObject *Sender)
+{
+   whiteStrategy = Checker::SELECT_BY_MOST_EAT_AND_DEFENSE;
+   StaticText4->Caption = "AI Putih : Agresif-Bertahan";
 }
 //---------------------------------------------------------------------------
 
@@ -550,3 +561,5 @@ void __fastcall TForm1::CepatClick(TObject *Sender)
    StaticText5->Caption = "Kecepatan Permainan : Cepat";
 }
 //---------------------------------------------------------------------------
+
+
