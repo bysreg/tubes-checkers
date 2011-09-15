@@ -183,20 +183,32 @@ int Checker::countEatable(int aRow, int aCol, int parRow, int parCol) {
 
 int Checker::countDefense(int aRow, int aCol) {
 	int retval = 0;
-	if(getTile(aRow,aCol)->getColor()==0 || getTile(aRow,aCol)->getStatus()==Tile::KING) {
-		if(aRow>0 && aCol>0) {
+	if(getTile(aRow,aCol)->getColor()==0) {
+		if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->getColor()==0) {
 			retval++;
+			if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+				retval++;
+			}
 		}
-		if(aRow>0 && aCol+1<mSize) {
-			retval++;
+		if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->getColor()==0) {
+			retval+=2;
+			if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol)->getColor()!=getTile(aRow,aCol)->getColor()) {
+				retval++;
+			}
 		}
 	}
-	if(getTile(aRow,aCol)->getColor()==1 || getTile(aRow,aCol)->getStatus()==Tile::KING) {
-		if(aRow+1<mSize && aCol>0) {
+	if(getTile(aRow,aCol)->getColor()==1) {
+		if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->getColor()==1) {
 			retval++;
+			if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+				retval++;
+			}
 		}
-		if(aRow+1<mSize && aCol+1<mSize) {
+		if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->getColor()==1) {
 			retval++;
+			if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+				retval++;
+			}
 		}
 	}
 	return retval;
