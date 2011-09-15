@@ -315,7 +315,7 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
 void __fastcall TForm1::AITurnTimer(TObject *Sender)
 {
    AITurn->Interval = waitingTime;
-
+   //ShowMessage(c->countDefense(3,2,2,1));
    GameMove gameMove;
 
    if (c->getTurn() == 0) {
