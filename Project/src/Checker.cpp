@@ -181,32 +181,32 @@ int Checker::countEatable(int aRow, int aCol, int parRow, int parCol) {
 	return retval;
 }
 
-int Checker::countDefense(int aRow, int aCol) {
+int Checker::countDefense(int aRow, int aCol, int parRow, int parCol) {
 	int retval = 0;
 	if(getTile(aRow,aCol)->getColor()==0) {
-		if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->getColor()==0) {
+		if(aRow>0 && aCol>0 && aRow-1!=parRow && aCol-1!=parCol && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()==0) {
 			retval++;
-			if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+			if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=getTile(aRow,aCol)->getColor()) {
 				retval++;
 			}
 		}
-		if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->getColor()==0) {
-			retval+=2;
-			if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol)->getColor()!=getTile(aRow,aCol)->getColor()) {
+		if(aRow>0 && aCol+1<mSize && aRow-1!=parRow && aCol+1!=parCol && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()==0) {
+			retval++;
+			if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() &&  getTile(aRow+1,aCol-1)->getColor()!=getTile(aRow,aCol)->getColor()) {
 				retval++;
 			}
 		}
 	}
 	if(getTile(aRow,aCol)->getColor()==1) {
-		if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->getColor()==1) {
+		if(aRow+1<mSize && aCol>0 && aRow+1!=parRow && aCol-1!=parCol &&  getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()==1) {
 			retval++;
-			if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+			if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()!=getTile(aRow,aCol)->getColor()) {
 				retval++;
 			}
 		}
-		if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->getColor()==1) {
+		if(aRow+1<mSize && aCol+1<mSize && aRow+1!=parRow && aCol+1!=parCol &&  getTile(aRow+1,aCol+1)->isCoinInTile() &&  getTile(aRow+1,aCol+1)->getColor()==1) {
 			retval++;
-			if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+			if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()!=getTile(aRow,aCol)->getColor()) {
 				retval++;
 			}
 		}
@@ -221,9 +221,9 @@ GameMove Checker::selectMove(vector<GameMove> arrMove, int selectType) {
 	for(int i=1;i<arrMove.size();i++) {
 		if (selectType==SELECT_BY_MOST_EAT && countEatable(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) < countEatable(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col)) {
 			maxIndex = i;
-		}else if(selectType==SELECT_BY_MOST_DEFENSE && countDefense(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col) < countDefense(arrMove[i].to.row,arrMove[maxIndex].to.col)) {
+		}else if(selectType==SELECT_BY_MOST_DEFENSE && countDefense(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) < countDefense(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col)) {
 			maxIndex = i;
-		}else if(selectType==SELECT_BY_MOST_EAT_AND_DEFENSE && countEatable(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) + countDefense(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col) < countEatable(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col) + countDefense(arrMove[i].to.row,arrMove[maxIndex].to.col)) {
+		}else if(selectType==SELECT_BY_MOST_EAT_AND_DEFENSE && countEatable(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) + countDefense(arrMove[maxIndex].to.row,arrMove[maxIndex].to.col,arrMove[maxIndex].from.row,arrMove[maxIndex].from.col) < countEatable(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col) + countDefense(arrMove[i].to.row,arrMove[i].to.col,arrMove[i].from.row,arrMove[i].from.col)) {
 			maxIndex = i;
 		}
 	}
