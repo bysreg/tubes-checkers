@@ -44,6 +44,8 @@ __published:	// IDE-managed Components
         TStaticText *StaticText3;
         TStaticText *StaticText4;
         TStaticText *StaticText5;
+        TMenuItem *RedAIOffensiveDefensive;
+        TMenuItem *WhiteAIOffensiveDefensive;
         void __fastcall coinMouseDown(TObject *Sender, TMouseButton Button,
                TShiftState Shift, int X, int Y);
         void __fastcall hintMouseDown(TObject *Sender, TMouseButton Button,
@@ -63,6 +65,8 @@ __published:	// IDE-managed Components
         void __fastcall RedAIDefensiveClick(TObject *Sender);
         void __fastcall WhiteAIOffensiveClick(TObject *Sender);
         void __fastcall WhiteAIDefensiveClick(TObject *Sender);
+        void __fastcall RedAIOffensiveDefensiveClick(TObject *Sender);
+        void __fastcall WhiteAIOffensiveDefensiveClick(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);

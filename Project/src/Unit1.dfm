@@ -840,6 +840,10 @@ object Form1: TForm1
         Caption = 'Red AI(Bertahan)'
         OnClick = RedAIDefensiveClick
       end
+      object RedAIOffensiveDefensive: TMenuItem
+        Caption = 'Red AI(Agresif-Bertahan)'
+        OnClick = RedAIOffensiveDefensiveClick
+      end
       object WhiteAIOffensive: TMenuItem
         Caption = 'White AI(Agresif)'
         OnClick = WhiteAIOffensiveClick
@@ -847,6 +851,10 @@ object Form1: TForm1
       object WhiteAIDefensive: TMenuItem
         Caption = 'White AI(Bertahan)'
         OnClick = WhiteAIDefensiveClick
+      end
+      object WhiteAIOffensiveDefensive: TMenuItem
+        Caption = 'White AI(Agresif-Bertahan)'
+        OnClick = WhiteAIOffensiveDefensiveClick
       end
     end
   end
