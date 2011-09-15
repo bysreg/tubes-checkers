@@ -43,6 +43,7 @@ __published:	// IDE-managed Components
         TStaticText *StaticText2;
         TStaticText *StaticText3;
         TStaticText *StaticText4;
+        TStaticText *StaticText5;
         void __fastcall coinMouseDown(TObject *Sender, TMouseButton Button,
                TShiftState Shift, int X, int Y);
         void __fastcall hintMouseDown(TObject *Sender, TMouseButton Button,

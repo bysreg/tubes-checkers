@@ -169,7 +169,7 @@ void __fastcall TForm1::PlayervsAIClick(TObject *Sender)
       }
    }
 
-   StaticText1->Caption = "IT'S YOUR TURN";
+   StaticText1->Caption = "GILIRAN ANDA";
    AITurn->OnTimer = 0;
    AIRed->OnTimer = 0;
    AIWhite->OnTimer = 0;
@@ -214,7 +214,7 @@ void __fastcall TForm1::AIvsPlayerClick(TObject *Sender)
       }
    }
 
-   StaticText1->Caption = "";
+   StaticText1->Caption = "MENUNGGU...";
    AITurn->OnTimer = AITurnTimer;
    AIRed->OnTimer = 0;
    AIWhite->OnTimer = 0;
@@ -271,15 +271,15 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
             AIWhite->OnTimer = 0;
 
             if (c->getTurn() == 0) {
-               ShowMessage("RED WINS");
+               ShowMessage("MERAH MENANG");
             }
             else {
-               ShowMessage("WHITE WINS");
+               ShowMessage("PUTIH MENANG");
             }
          }
          else {
             AITurn->OnTimer = AITurnTimer;
-            StaticText1->Caption = "";
+            StaticText1->Caption = "MENUNGGU...";
          }
       }
    }
@@ -314,7 +314,7 @@ void __fastcall TForm1::hintMouseDown(TObject *Sender,
 
 void __fastcall TForm1::AITurnTimer(TObject *Sender)
 {
-   AITurn->Interval = 3000;
+   AITurn->Interval = waitingTime;
 
    GameMove gameMove;
 
@@ -335,15 +335,15 @@ void __fastcall TForm1::AITurnTimer(TObject *Sender)
          AIWhite->OnTimer = 0;
 
          if (c->getTurn() == 0) {
-            ShowMessage("RED WINS");
+            ShowMessage("MERAH MENANG");
          }
          else {
-            ShowMessage("WHITE WINS");
+            ShowMessage("PUTIH MENANG");
          }
       }
       else {
          AITurn->OnTimer = 0;
-         StaticText1->Caption = "IT'S YOUR TURN";
+         StaticText1->Caption = "GILIRAN ANDA";
       }
    }
 
@@ -404,7 +404,7 @@ void __fastcall TForm1::AIvsAIClick(TObject *Sender)
       }
    }
 
-   StaticText1->Caption = "IT'S RED TURN";
+   StaticText1->Caption = "GILIRAN MERAH";
    AITurn->OnTimer = 0;
    AIRed->OnTimer = AIRedTimer;
    AIWhite->OnTimer = AIWhiteTimer;
@@ -428,16 +428,16 @@ void __fastcall TForm1::AIRedTimer(TObject *Sender)
          AIWhite->OnTimer = 0;
 
          if (c->getTurn() == 0) {
-            ShowMessage("RED WINS");
+            ShowMessage("MERAH MENANG");
          }
          else {
-            ShowMessage("WHITE WINS");
+            ShowMessage("PUTIH MENANG");
          }
       }
       else {
          AIRed->OnTimer = 0;
          AIWhite->OnTimer = AIWhiteTimer;
-         StaticText1->Caption = "IT'S WHITE TURN";
+         StaticText1->Caption = "GILIRAN PUTIH";
       }
    }
 
@@ -475,16 +475,16 @@ void __fastcall TForm1::AIWhiteTimer(TObject *Sender)
          AIWhite->OnTimer = 0;
 
          if (c->getTurn() == 0) {
-            ShowMessage("RED WINS");
+            ShowMessage("MERAH MENANG");
          }
          else {
-            ShowMessage("WHITE WINS");
+            ShowMessage("PUTIH MENANG");
          }
       }
       else {
          AIRed->OnTimer = AIRedTimer;
          AIWhite->OnTimer = 0;
-         StaticText1->Caption = "IT'S RED TURN";
+         StaticText1->Caption = "GILIRAN MERAH";
       }
    }
 
@@ -506,36 +506,47 @@ void __fastcall TForm1::AIWhiteTimer(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
-void __fastcall TForm1::LambatClick(TObject *Sender) {waitingTime = 5000;}
-void __fastcall TForm1::SedangClick(TObject *Sender) {waitingTime = 3000;}
-void __fastcall TForm1::CepatClick(TObject *Sender) {waitingTime = 500;}
-
-
 void __fastcall TForm1::RedAIOffensiveClick(TObject *Sender)
 {
    redStrategy = Checker::SELECT_BY_MOST_EAT;
-   StaticText3->Caption = "Red AI : OFFENSIVE";
+   StaticText3->Caption = "AI Merah : Agresif";
 }
-//---------------------------------------------------------------------------
 
 void __fastcall TForm1::RedAIDefensiveClick(TObject *Sender)
 {
    redStrategy = Checker::SELECT_BY_MOST_DEFENSE;
-   StaticText3->Caption = "Red AI : DEFENSIVE";
+   StaticText3->Caption = "AI Merah : Bertahan";
 }
-//---------------------------------------------------------------------------
 
 void __fastcall TForm1::WhiteAIOffensiveClick(TObject *Sender)
 {
    whiteStrategy = Checker::SELECT_BY_MOST_EAT;
-   StaticText4->Caption = "White AI : OFFENSIVE";
+   StaticText4->Caption = "AI Putih : Agresif";
 }
-//---------------------------------------------------------------------------
 
 void __fastcall TForm1::WhiteAIDefensiveClick(TObject *Sender)
 {
    whiteStrategy = Checker::SELECT_BY_MOST_DEFENSE;
-   StaticText4->Caption = "White AI : DEFENSIVE";
+   StaticText4->Caption = "AI Putih : Bertahan";
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TForm1::LambatClick(TObject *Sender)
+{
+   waitingTime = 5000;
+   StaticText5->Caption = "Kecepatan Permainan : Lambat";
+}
+
+void __fastcall TForm1::SedangClick(TObject *Sender)
+{
+   waitingTime = 3000;
+   StaticText5->Caption = "Kecepatan Permainan : Sedang";
+}
+
+void __fastcall TForm1::CepatClick(TObject *Sender)
+{
+   waitingTime = 500;
+   StaticText5->Caption = "Kecepatan Permainan : Cepat";
+}
+//---------------------------------------------------------------------------

@@ -712,8 +712,8 @@ object Form1: TForm1
   object StaticText1: TStaticText
     Left = 624
     Top = 60
-    Width = 120
-    Height = 50
+    Width = 4
+    Height = 4
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -24
@@ -733,9 +733,9 @@ object Form1: TForm1
   object StaticText2: TStaticText
     Left = 624
     Top = 12
-    Width = 159
+    Width = 119
     Height = 41
-    Caption = 'Message :'
+    Caption = 'Pesan :'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -32
@@ -747,8 +747,9 @@ object Form1: TForm1
   object StaticText3: TStaticText
     Left = 624
     Top = 120
-    Width = 120
-    Height = 50
+    Width = 192
+    Height = 33
+    Caption = 'AI Merah : Agresif'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -24
@@ -759,9 +760,10 @@ object Form1: TForm1
   end
   object StaticText4: TStaticText
     Left = 624
-    Top = 184
-    Width = 120
-    Height = 50
+    Top = 160
+    Width = 178
+    Height = 33
+    Caption = 'AI Putih : Agresif'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -24
@@ -770,17 +772,31 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 4
   end
+  object StaticText5: TStaticText
+    Left = 624
+    Top = 240
+    Width = 343
+    Height = 33
+    Caption = 'Kecepatan Permainan : Sedang'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -24
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
+  end
   object MainMenu: TMainMenu
     Left = 624
     Top = 584
     object Permainan: TMenuItem
       Caption = 'Permainan'
       object PlayervsAI: TMenuItem
-        Caption = 'Player(Red) vs AI'
+        Caption = 'Player(Merah) vs AI'
         OnClick = PlayervsAIClick
       end
       object AIvsPlayer: TMenuItem
-        Caption = 'AI vs Player(White)'
+        Caption = 'AI vs Player(Putih)'
         OnClick = AIvsPlayerClick
       end
       object AIvsAI: TMenuItem
@@ -817,19 +833,19 @@ object Form1: TForm1
     object AIStrategy: TMenuItem
       Caption = 'Strategi AI'
       object RedAIOffensive: TMenuItem
-        Caption = 'Red AI(Offensive)'
+        Caption = 'Red AI(Agresif)'
         OnClick = RedAIOffensiveClick
       end
       object RedAIDefensive: TMenuItem
-        Caption = 'Red AI(Defensive)'
+        Caption = 'Red AI(Bertahan)'
         OnClick = RedAIDefensiveClick
       end
       object WhiteAIOffensive: TMenuItem
-        Caption = 'White AI(Offensive)'
+        Caption = 'White AI(Agresif)'
         OnClick = WhiteAIOffensiveClick
       end
       object WhiteAIDefensive: TMenuItem
-        Caption = 'White AI(Defensive)'
+        Caption = 'White AI(Bertahan)'
         OnClick = WhiteAIDefensiveClick
       end
     end
