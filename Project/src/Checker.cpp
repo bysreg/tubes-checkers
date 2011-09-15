@@ -180,33 +180,33 @@ int Checker::countEatable(int aRow, int aCol, int parRow, int parCol) {
 	} 
 	return retval;
 }
-
+//3 2 2 1
 int Checker::countDefense(int aRow, int aCol, int parRow, int parCol) {
 	int retval = 0;
-	if(getTile(aRow,aCol)->getColor()==0) {
-		if(aRow>0 && aCol>0 && aRow-1!=parRow && aCol-1!=parCol && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()==0) {
+	if(getTile(parRow,parCol)->getColor()==0) {
+		if(aRow>0 && aCol>0 && !(aRow-1==parRow && aCol-1==parCol) && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()==0) {
 			retval++;
-			if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+			if(aRow+1<mSize && aCol+1<mSize && getTile(aRow+1,aCol+1)->isCoinInTile() && getTile(aRow+1,aCol+1)->getColor()!=getTile(parRow,parCol)->getColor()) {
 				retval++;
 			}
 		}
-		if(aRow>0 && aCol+1<mSize && aRow-1!=parRow && aCol+1!=parCol && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()==0) {
+		if(aRow>0 && aCol+1<mSize && !(aRow-1==parRow && aCol+1==parCol) && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()==0) {
 			retval++;
-			if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() &&  getTile(aRow+1,aCol-1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+			if(aRow+1<mSize && aCol>0 && getTile(aRow+1,aCol-1)->isCoinInTile() &&  getTile(aRow+1,aCol-1)->getColor()!=getTile(parRow,parCol)->getColor()) {
 				retval++;
 			}
 		}
 	}
-	if(getTile(aRow,aCol)->getColor()==1) {
-		if(aRow+1<mSize && aCol>0 && aRow+1!=parRow && aCol-1!=parCol &&  getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()==1) {
+	if(getTile(parRow,parCol)->getColor()==1) {
+		if(aRow+1<mSize && aCol>0 && !(aRow+1==parRow && aCol-1==parCol) &&  getTile(aRow+1,aCol-1)->isCoinInTile() && getTile(aRow+1,aCol-1)->getColor()==1) {
 			retval++;
-			if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+			if(aRow>0 && aCol+1<mSize && getTile(aRow-1,aCol+1)->isCoinInTile() &&  getTile(aRow-1,aCol+1)->getColor()!=getTile(parRow,parCol)->getColor()) {
 				retval++;
 			}
 		}
-		if(aRow+1<mSize && aCol+1<mSize && aRow+1!=parRow && aCol+1!=parCol &&  getTile(aRow+1,aCol+1)->isCoinInTile() &&  getTile(aRow+1,aCol+1)->getColor()==1) {
+		if(aRow+1<mSize && aCol+1<mSize && !(aRow+1==parRow && aCol+1==parCol) &&  getTile(aRow+1,aCol+1)->isCoinInTile() &&  getTile(aRow+1,aCol+1)->getColor()==1) {
 			retval++;
-			if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()!=getTile(aRow,aCol)->getColor()) {
+			if(aRow>0 && aCol>0 && getTile(aRow-1,aCol-1)->isCoinInTile() &&  getTile(aRow-1,aCol-1)->getColor()!=getTile(parRow,parCol)->getColor()) {
 				retval++;
 			}
 		}
@@ -328,6 +328,11 @@ int main() {
 	int row1,col1,row2,col2;
 	Checker c(8);
 	GamePoint p;
+	int aRow = 3;
+	int aCol = 2;
+	int parRow = 2;
+	int parCol = 1;
+	cout<<"aaaaa"<<(c.countDefense(3,2,2,1))<<endl;
 	while(true) {
 		c.printBoard();
 		cout<<"giliran pemain : "<<c.getTurn()<<endl;	
